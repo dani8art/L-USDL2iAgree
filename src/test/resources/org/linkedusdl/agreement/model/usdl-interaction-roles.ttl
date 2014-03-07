@@ -1,0 +1,60 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix usdl-core: <http://www.linked-usdl.org/ns/usdl-core#> .
+
+@base <http://www.linked-usdl.org/ns/usdl-interaction-roles#> .
+
+<http://www.linked-usdl.org/ns/usdl-interaction-roles> a skos:ConceptScheme , owl:Ontology;
+    dcterms:title "Linked USDL Basic Interaction Roles concept scheme";
+    dcterms:description """<p>This vocabulary provides the core interaction roles contemplated within Linked USDL. The taxonomy provided here is a minimal reference one. Extensions or replacements for this could be defined an used within applications in the very same way by refining InteractionRole or creating further SKOS concept schemes. </p>"""@en ;
+    dcterms:modified "2013-02-11"^^xsd:date, "2014-01-14"^^xsd:date ;
+    vann:preferredNamespaceUri "http://www.linked-usdl.org/ns/usdl-interaction-roles#";
+    vann:preferredNamespacePrefix "usdl-ir";
+    foaf:page <http://www.linked-usdl.org/ns/usdl-interaction-roles.html>;
+    dcterms:creator usdl-core:cpedrinaci, usdl-core:jcardoso, usdl-core:tleidig ;
+	skos:prefLabel "Interaction Roles"@en ;
+	skos:hasTopConcept <observer>, <participant> .
+
+# Core basic interaction roles
+<observer> a usdl-core:InteractionRole ;
+    rdfs:label "Observer"@en ;
+    skos:prefLabel "Observer"@en ;
+    skos:definition "<p>An Observer within an Interaction is a third party entity that does not take any active role within the interaction. Observers are typically monitoring the actual activities in order to ensure that best practices or regulations are followed (e.g., Regulators, Quality Assurance Departments).</p>"@en ;
+	skos:topConceptOf <http://www.linked-usdl.org/ns/usdl-interaction-roles>;
+	skos:narrower <initiator>, <mediator>, <receiver>;
+	skos:inScheme <http://www.linked-usdl.org/ns/usdl-interaction-roles>.
+
+<participant> a usdl-core:InteractionRole ;
+    rdfs:label "participant"@en ;
+    skos:prefLabel "participant"@en ;
+    skos:definition "<p>A Participant is an entity that takes active part within a concrete interaction.</p>"@en ;
+	skos:topConceptOf <http://www.linked-usdl.org/ns/usdl-interaction-roles>;
+	skos:inScheme <http://www.linked-usdl.org/ns/usdl-interaction-roles>.
+
+<initiator> a usdl-core:InteractionRole ;
+    rdfs:label "initiator"@en ;
+    skos:prefLabel "initiator"@en ;
+    skos:definition "<p>An Initiator within an Interaction is the entity that should initiate the interaction.</p>"@en ;
+	skos:broader <participant>;
+	skos:inScheme <http://www.linked-usdl.org/ns/usdl-interaction-roles>.
+
+<mediator> a usdl-core:InteractionRole ;
+    rdfs:label "Mediator"@en ;
+    skos:prefLabel "Mediator"@en ;
+    skos:definition "<p>A Mediator is an entity that is involved within a given interaction but is neither the initiator nor the final destination of a given interaction. An interaction reaching a Mediator is not considered to be concluded.</p>"@en ;
+	skos:broader <participant>;
+	skos:inScheme <http://www.linked-usdl.org/ns/usdl-interaction-roles>.
+
+<receiver> a usdl-core:InteractionRole ;
+    rdfs:label "receiver"@en ;
+    skos:prefLabel "receiver"@en ;
+    skos:definition "<p>A Receiver is the final destination of a given interaction. Once an interaction has reacher the receiver, the interaction is considered to be concluded.</p>"@en ;
+	skos:broader <participant>;
+	skos:inScheme <http://www.linked-usdl.org/ns/usdl-interaction-roles>.

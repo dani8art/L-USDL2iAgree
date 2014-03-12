@@ -1,7 +1,11 @@
 package org.linkedusdl.agreement.model;
 
+import java.net.URI;
+
+import com.viceversatech.rdfbeans.annotations.RDF;
 import com.viceversatech.rdfbeans.annotations.RDFBean;
 import com.viceversatech.rdfbeans.annotations.RDFNamespaces;
+import com.viceversatech.rdfbeans.annotations.RDFSubject;
 
 @RDFNamespaces({
 	"ag = http://purl.org/agreements#",
@@ -16,7 +20,18 @@ import com.viceversatech.rdfbeans.annotations.RDFNamespaces;
 	"rdfs =  http://www.w3.org/2000/01/rdf-schema#"
 })
 
-@RDFBean("ag:BetweenGuaranteedValue")
-public interface BetweenGuaranteedValue extends AgreementCondition {
-		
+@RDFBean("owl:Class")
+public interface ValueOfHasValue {
+
+	@RDFSubject
+	public String getId();
+	public void setId(String id);
+	
+	@RDF("rdf:type")
+	public URI getType();
+	public void setType(URI type);	
+	
+	@RDF("gr:hasValue")
+	public String getPropertyValue();
+	public void setPropertyValue(String val);
 }

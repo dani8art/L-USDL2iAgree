@@ -6,7 +6,6 @@ import com.viceversatech.rdfbeans.annotations.RDF;
 import com.viceversatech.rdfbeans.annotations.RDFBean;
 import com.viceversatech.rdfbeans.annotations.RDFNamespaces;
 import com.viceversatech.rdfbeans.annotations.RDFSubject;
-import com.viceversatech.rdfbeans.reflect.RDFProperty;
 
 @RDFNamespaces({
 	"ag = http://purl.org/agreements#",
@@ -16,7 +15,9 @@ import com.viceversatech.rdfbeans.reflect.RDFProperty;
 	"owl = http://www.w3.org/2002/07/owl#",
 	"qudt = http://qudt.org/schema/qudt#",
 	"skos = http://www.w3.org/2004/02/skos/core#",
-	"usdl = http://www.linked-usdl.org/ns/usdl-core#"
+	"usdl = http://www.linked-usdl.org/ns/usdl-core#",
+	"rdf = http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+	"rdfs =  http://www.w3.org/2000/01/rdf-schema#"
 })
 
 @RDFBean("ag:AgreementCondition")
@@ -26,12 +27,16 @@ public interface AgreementCondition {
 	public String getId();
 	public void setId(String id);
 	
+	@RDF("rdf:type")
+	public URI getType();
+	public void setType( URI uri);
+	
 	@RDF("ag:hasValue")
-	public URI getHasValue();
-	public void setHasValue(URI uri);
+	public ValueOfHasValue getHasValue();
+	public void setHasValue(ValueOfHasValue uri);
 	
 	@RDF("ag:refersTo")
-	public URI getRefersTo();
-	public void setRefersTo(RDFProperty p);
+	public ValueOfRefersTo getRefersTo();
+	public void setRefersTo(ValueOfRefersTo uri);
 	
 }

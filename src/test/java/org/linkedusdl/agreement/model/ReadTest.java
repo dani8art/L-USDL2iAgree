@@ -2,6 +2,7 @@ package org.linkedusdl.agreement.model;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -47,11 +48,23 @@ public class ReadTest {
 
 	
 	private void printServiceOffering(ServiceOffering so) {
-		System.out.println("so:" + so.getId());
+		System.out.println("Service Offering:" + so.getId());
 
 		for (GuaranteeTerm gt: so.getComplyWith()) {
-			System.out.println("gt: " + gt.getId() + " -- compensation -- " + gt.getHasCompensation().getId());
-			System.out.println("--- " + gt.getGuarantees().getId());
+			System.out.println("- Guarantee Term: " + gt.getId());
+			AgreementCondition a = gt.getGuarantees();
+			System.out.println("----- Guarantees: ");
+			System.out.println("------- Type: " + a.getType());
+			System.out.println("------- hasValue: " + a.getHasValue().getType());
+			System.out.println("--------- Value: " + a.getHasValue().getPropertyValue());			
+			System.out.println("------- refersTo: " + a.getRefersTo().getId());
+			AgreementCondition b = gt.getHasCompensation();
+			System.out.println("----- Compensation: " + b.getId());
+			System.out.println("------- refersTo: "+ b.getRefersTo());
+			
+		}
+		for (URI uri : so.getIncludes()){
+			System.out.println("- Includes: "+ uri);
 		}
 	}
 

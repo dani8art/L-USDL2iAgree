@@ -27,7 +27,7 @@ public class ReadTest {
 		model.open();
 		
 		// Reads amazonEC2.ttl file into RDF2Go model
-		InputStream source = getClass().getResourceAsStream("amazonEC2.ttl");
+		InputStream source = getClass().getResourceAsStream("test.ttl");
 		model.readFrom(source, Syntax.Turtle);
 
 		// Initializes the bean manager
@@ -49,22 +49,25 @@ public class ReadTest {
 	
 	private void printServiceOffering(ServiceOffering so) {
 		System.out.println("Service Offering:" + so.getId());
-
-		for (GuaranteeTerm gt: so.getComplyWith()) {
-			System.out.println("- Guarantee Term: " + gt.getId());
-			AgreementCondition a = gt.getGuarantees();
-			System.out.println("----- Guarantees: ");
-			System.out.println("------- Type: " + a.getType());
-			System.out.println("------- hasValue: " + a.getHasValue().getType());
-			System.out.println("--------- Value: " + a.getHasValue().getPropertyValue());			
-			System.out.println("------- refersTo: " + a.getRefersTo().getId());
-			AgreementCondition b = gt.getHasCompensation();
-			System.out.println("----- Compensation: " + b.getId());
-			System.out.println("------- refersTo: "+ b.getRefersTo());
+		try{
+			for (GuaranteeTerm gt: so.getComplyWith()) {
+				System.out.println("- Guarantee Term: " + gt.getId());
+				AgreementCondition a = gt.getGuarantees();
+				System.out.println("----- Guarantees: ");
+				System.out.println("------- Type: " + a.getType());
+				System.out.println("------- hasValue: " + a.getHasValue().getType());
+				System.out.println("--------- Value: " + a.getHasValue().getHasValueInteger());			
+				System.out.println("------- refersTo: " + a.getRefersTo().getId());
+				AgreementCondition b = gt.getHasCompensation();
+				System.out.println("----- Compensation: " + b.getId());
+				System.out.println("------- refersTo: "+ b.getRefersTo());
 			
-		}
-		for (URI uri : so.getIncludes()){
-			System.out.println("- Includes: "+ uri);
+			}
+			for (URI uri : so.getIncludes()){
+				System.out.println("- Includes: "+ uri);
+			}
+		}catch(Exception e){
+			System.out.println(e.getMessage());
 		}
 	}
 

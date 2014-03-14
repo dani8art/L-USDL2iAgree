@@ -20,7 +20,18 @@ import com.viceversatech.rdfbeans.annotations.RDFSubject;
 	"rdfs =  http://www.w3.org/2000/01/rdf-schema#"
 })
 
-@RDFBean("owl:Class")
-public interface ValueOfHasValue extends QuantitativeFloatValue, QuantitativeIntegerValue {
+@RDFBean("gr:QuantitativeValueInteger")
+public interface QuantitativeIntegerValue {
+
+	@RDFSubject
+	public String getId();
+	public void setId(String id);
 	
+	@RDF("rdf:type")
+	public URI getType();
+	public void setType(URI type);	
+	
+	@RDF("gr:hasValueInteger")
+	public Integer getHasValueInteger();
+	public void setHasValueInteger(Integer val);
 }

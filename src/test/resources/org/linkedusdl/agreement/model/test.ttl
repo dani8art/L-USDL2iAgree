@@ -74,7 +74,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "16"^^xsd:int ;
+                gr:hasValueInteger "16"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -100,7 +100,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "8"^^xsd:int ;
+                gr:hasValueInteger "8"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -126,7 +126,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "8"^^xsd:int ;
+                gr:hasValueInteger "8"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -152,7 +152,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "8"^^xsd:int ;
+                gr:hasValueInteger "8"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -178,7 +178,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "2"^^xsd:int ;
+                gr:hasValueInteger "2"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -204,7 +204,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "8"^^xsd:int ;
+                gr:hasValueInteger "8"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -230,7 +230,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "4"^^xsd:int ;
+                gr:hasValueInteger "4"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -256,7 +256,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "2"^^xsd:int ;
+                gr:hasValueInteger "2"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -282,7 +282,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "8"^^xsd:int ;
+                gr:hasValueInteger "8"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -308,7 +308,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "4"^^xsd:int ;
+                gr:hasValueInteger "4"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -334,7 +334,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "2"^^xsd:int ;
+                gr:hasValueInteger "2"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -360,7 +360,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "1"^^xsd:int ;
+                gr:hasValueInteger "1"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -386,7 +386,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "1"^^xsd:int ;
+                gr:hasValueInteger "1"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -407,7 +407,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "8"^^xsd:int ;
+                gr:hasValueInteger "8"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -428,7 +428,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "4"^^xsd:int ;
+                gr:hasValueInteger "4"^^xsd:integer ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
 
@@ -449,7 +449,7 @@
               ] ;
       cloud:hasVirtualCores
               [ rdf:type gr:QuantitativeValueInteger ;
-                gr:hasValueInteger "1"^^xsd:int
+                gr:hasValueInteger "1"^^xsd:integer
                  ;
                 qudt:unit <http://qudt.org/vocab/unit#Number>
               ] .
@@ -459,8 +459,8 @@
       ag:guarantees
               [ rdf:type ag:MinGuaranteedValue ;
                 ag:hasValue
-                        [ rdf:type gr:QuantitativeValueInteger ;
-                		  gr:hasValueInteger "1"^^xsd:integer 
+                        [ rdf:type gr:QuantitativeValueFloat ;
+                		      gr:hasValueFloat "99.95"^^xsd:float 
                         ] ;
                 ag:refersTo :annualUptimePercentage ;
                 qudt:unit <http://qudt.org/vocab/unit#Percent>

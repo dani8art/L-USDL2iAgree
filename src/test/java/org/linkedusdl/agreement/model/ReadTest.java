@@ -56,11 +56,13 @@ public class ReadTest {
 				System.out.println("----- Guarantees: ");
 				System.out.println("------- Type: " + a.getType());
 				System.out.println("------- hasValue: " + a.getHasValue().getType());
-				System.out.println("--------- Value: " + a.getHasValue().getHasValueInteger());			
+				System.out.println("--------- Value: " + a.getHasValue().getHasValueFloat());			
 				System.out.println("------- refersTo: " + a.getRefersTo().getId());
+				System.out.println("---------hasMetric: " + a.getRefersTo().getHasMetric().getId());
+				System.out.println("-----------Expression: "+ a.getRefersTo().getHasMetric().getHasExpression());
 				AgreementCondition b = gt.getHasCompensation();
 				System.out.println("----- Compensation: " + b.getId());
-				System.out.println("------- refersTo: "+ b.getRefersTo());
+				System.out.println("------- refersTo: "+ b.getRefersTo().getId());
 			
 			}
 			for (URI uri : so.getIncludes()){

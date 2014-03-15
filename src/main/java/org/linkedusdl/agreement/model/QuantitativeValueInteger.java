@@ -20,8 +20,8 @@ import com.viceversatech.rdfbeans.annotations.RDFSubject;
 	"rdfs =  http://www.w3.org/2000/01/rdf-schema#"
 })
 
-@RDFBean("gr:QuantitativeValueFloat")
-public interface QuantitativeFloatValue {
+@RDFBean("gr:QuantitativeValueInteger")
+public interface QuantitativeValueInteger {
 
 	@RDFSubject
 	public String getId();
@@ -31,7 +31,11 @@ public interface QuantitativeFloatValue {
 	public URI getType();
 	public void setType(URI type);	
 	
-	@RDF("gr:hasValueFloat")
-	public float getHasValueFloat();
-	public void setHasValueFloat(float val);
+	@RDF("gr:hasValueInteger")
+	public Integer getHasValueInteger();
+	public void setHasValueInteger(Integer val);
+	
+	@RDF("qudt:unit")
+	public URI getUnit();
+	public void setUnit(URI unit);
 }

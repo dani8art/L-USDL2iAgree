@@ -32,8 +32,8 @@ public interface ValueOfRefersTo {
 	public void setType(URI uri);
 	
 	@RDF("ag:hasMetric")
-	public URI getHasMetric();
-	public void setHasMetric(URI uri);
+	public Metric getHasMetric();
+	public void setHasMetric(Metric m);
 	
 	@RDF("rdfs:subPropertyOf")
 	public URI getSubPropertyOf();

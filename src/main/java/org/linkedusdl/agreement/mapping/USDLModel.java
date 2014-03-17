@@ -39,14 +39,12 @@ public class USDLModel {
 	} 
 	
 	public Collection<ServiceOffering> getServiceOfferings() throws RDFBeanException{
-		@SuppressWarnings("unused")
-		Collection<ServiceOffering> ret;
-		Collection<ServiceOffering> aux;
-		aux = this.manager.createAll(ServiceOffering.class);
-		for (ServiceOffering s: aux){
-			System.out.println(s.getId());
-		}		
+		Collection<ServiceOffering> ret;;
+		ret = this.manager.createAll(ServiceOffering.class);
+		return ret;
+	}
+	
+	public void  closeModel(){
 		this.model.close();
-		return null;
 	}
 }

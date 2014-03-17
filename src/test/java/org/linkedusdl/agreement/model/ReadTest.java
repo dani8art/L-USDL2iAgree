@@ -1,19 +1,11 @@
 package org.linkedusdl.agreement.model;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
-
-import org.junit.Assert;
+import java.util.Collection;
 import org.junit.Test;
-import org.ontoware.rdf2go.ModelFactory;
-import org.ontoware.rdf2go.RDF2Go;
+import org.linkedusdl.agreement.mapping.USDLModel;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
-import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.Syntax;
-import org.openrdf.rdf2go.RepositoryModelFactory;
-
-import com.viceversatech.rdfbeans.RDFBeanManager;
 import com.viceversatech.rdfbeans.exceptions.RDFBeanException;
 
 import es.us.isa.ada.wsag10.Agreement;
@@ -26,7 +18,7 @@ public class ReadTest {
 	@Test
 	public void newTest() throws RDFBeanException, ModelRuntimeException, IOException {
 		// Loads RDF2Go model
-		RDF2Go.register(new RepositoryModelFactory());
+		/*RDF2Go.register(new RepositoryModelFactory());
 		ModelFactory modelFactory = RDF2Go.getModelFactory();
 		Model model = modelFactory.createModel();
 		model.open();
@@ -48,7 +40,20 @@ public class ReadTest {
 		Assert.assertEquals(1, so.getComplyWith().size());
 		Assert.assertEquals("http://purl.org/cloudComputing/amazonEC2#ec2ServiceCommitment", so.getComplyWith().iterator().next().getId());
 		
-		model.close();
+		model.close();*/
+		try{
+			USDLModel model = new USDLModel(getClass().getResourceAsStream("test.ttl"));
+
+			Collection<ServiceOffering> services = model.getServiceOfferings();
+			
+			for(ServiceOffering so : services){
+				printServiceOffering(so);
+			}
+			
+			model.closeModel();
+		}catch(Exception e){
+			System.out.println(e.toString());
+		}
 	}	
 
 	

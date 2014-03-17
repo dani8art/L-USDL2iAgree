@@ -7,6 +7,13 @@
 
 	<repositories>
 		<repository>
+            <id>es.us.isa</id>
+            <name>ISA group</name>
+            <url>http://clinker.isagroup.es/nexus/content/groups/public</url>
+            <snapshots><enabled>true</enabled></snapshots>
+            <releases><enabled>true</enabled></releases>
+        </repository>
+		<repository>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -44,6 +51,11 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+             <groupId>es.us.isa</groupId>
+             <artifactId>iagree-model</artifactId>
+             <version>0.5-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 
 </project>

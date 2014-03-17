@@ -1,11 +1,8 @@
 package org.linkedusdl.agreement.model;
 
-import java.net.URI;
 
-import com.viceversatech.rdfbeans.annotations.RDF;
 import com.viceversatech.rdfbeans.annotations.RDFBean;
 import com.viceversatech.rdfbeans.annotations.RDFNamespaces;
-import com.viceversatech.rdfbeans.annotations.RDFSubject;
 
 @RDFNamespaces({
 	"ag = http://purl.org/agreements#",

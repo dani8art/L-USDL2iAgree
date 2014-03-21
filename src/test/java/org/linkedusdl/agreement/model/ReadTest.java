@@ -6,6 +6,7 @@ import java.net.URI;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.linkedusdl.agreement.mapping.WriteXMLFromiAgree;
 import org.ontoware.rdf2go.ModelFactory;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -57,11 +58,12 @@ public class ReadTest {
 		Agreement ag = new Agreement();
 		ag.setName(so.getId());
 		try{
+			int n = 1;
 			for (GuaranteeTerm gt: so.getComplyWith()) {
 				es.us.isa.ada.wsag10.GuaranteeTerm gr = new es.us.isa.ada.wsag10.GuaranteeTerm();
 				
 				System.out.println("- Guarantee Term: " + gt.getId());
-					gr.setName(gt.getId());
+					gr.setName("G"+ n); n++;
 					
 				AgreementCondition a = gt.getGuarantees();
 					gr.setObligated("Provider");
@@ -75,6 +77,7 @@ public class ReadTest {
 				System.out.println("--------- Value: " + a.getHasValue().getHasValueFloat());			
 				System.out.println("------- refersTo: " + a.getRefersTo().getId());
 					ServiceProperties sp = new ServiceProperties();
+					sp.setName("SP_AWS-S3");
 					Variable v = new Variable();
 					v.setName(a.getRefersTo().getId());					
 					sp.getVariableSet().add(v);					
@@ -90,8 +93,12 @@ public class ReadTest {
 			for (URI uri : so.getIncludes()){
 				System.out.println("- Includes: "+ uri);
 			}
+			
+			WriteXMLFromiAgree w = new WriteXMLFromiAgree();
+			w.write(ag, "src/test/resources/org/linkedusdl/agreement/xml");
+			
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			e.printStackTrace();;
 		}
 	}
 

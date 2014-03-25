@@ -1,20 +1,11 @@
 package org.linkedusdl.agreement.model;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
-
-import org.junit.Assert;
+import java.util.Collection;
 import org.junit.Test;
-import org.linkedusdl.agreement.mapping.WriteXMLFromiAgree;
-import org.ontoware.rdf2go.ModelFactory;
-import org.ontoware.rdf2go.RDF2Go;
+import org.linkedusdl.agreement.mapping.USDLModel;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
-import org.ontoware.rdf2go.model.Model;
-import org.ontoware.rdf2go.model.Syntax;
-import org.openrdf.rdf2go.RepositoryModelFactory;
-
-import com.viceversatech.rdfbeans.RDFBeanManager;
 import com.viceversatech.rdfbeans.exceptions.RDFBeanException;
 
 import es.us.isa.ada.wsag10.Agreement;
@@ -27,7 +18,7 @@ public class ReadTest {
 	@Test
 	public void newTest() throws RDFBeanException, ModelRuntimeException, IOException {
 		// Loads RDF2Go model
-		RDF2Go.register(new RepositoryModelFactory());
+		/*RDF2Go.register(new RepositoryModelFactory());
 		ModelFactory modelFactory = RDF2Go.getModelFactory();
 		Model model = modelFactory.createModel();
 		model.open();
@@ -49,7 +40,20 @@ public class ReadTest {
 		Assert.assertEquals(1, so.getComplyWith().size());
 		Assert.assertEquals("http://purl.org/cloudComputing/amazonEC2#ec2ServiceCommitment", so.getComplyWith().iterator().next().getId());
 		
-		model.close();
+		model.close();*/
+		try{
+			USDLModel model = new USDLModel(getClass().getResourceAsStream("test.ttl"));
+
+			Collection<ServiceOffering> services = model.getServiceOfferings();
+			
+			for(ServiceOffering so : services){
+				printServiceOffering(so);
+			}
+			
+			model.closeModel();
+		}catch(Exception e){
+			System.out.println(e.toString());
+		}
 	}	
 
 	
@@ -58,12 +62,11 @@ public class ReadTest {
 		Agreement ag = new Agreement();
 		ag.setName(so.getId());
 		try{
-			int n = 1;
 			for (GuaranteeTerm gt: so.getComplyWith()) {
 				es.us.isa.ada.wsag10.GuaranteeTerm gr = new es.us.isa.ada.wsag10.GuaranteeTerm();
 				
 				System.out.println("- Guarantee Term: " + gt.getId());
-					gr.setName("G"+ n); n++;
+					gr.setName(gt.getId());
 					
 				AgreementCondition a = gt.getGuarantees();
 					gr.setObligated("Provider");
@@ -77,7 +80,6 @@ public class ReadTest {
 				System.out.println("--------- Value: " + a.getHasValue().getHasValueFloat());			
 				System.out.println("------- refersTo: " + a.getRefersTo().getId());
 					ServiceProperties sp = new ServiceProperties();
-					sp.setName("SP_AWS-S3");
 					Variable v = new Variable();
 					v.setName(a.getRefersTo().getId());					
 					sp.getVariableSet().add(v);					
@@ -93,12 +95,8 @@ public class ReadTest {
 			for (URI uri : so.getIncludes()){
 				System.out.println("- Includes: "+ uri);
 			}
-			
-			WriteXMLFromiAgree w = new WriteXMLFromiAgree();
-			w.writeFile(ag, "src/test/resources/org/linkedusdl/agreement/xml");
-			
 		}catch(Exception e){
-			e.printStackTrace();;
+			System.out.println(e.getMessage());
 		}
 	}
 

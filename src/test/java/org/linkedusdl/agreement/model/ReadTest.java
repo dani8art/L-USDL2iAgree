@@ -31,7 +31,7 @@ public class ReadTest {
 			for(ServiceOffering so : services){
 				printServiceOffering(so);
 				Agreement ag = mapping.transform(so);
-				writer.writeFile(ag, "/src/test/sources/org/linkedusdl/agreement/xml/AmazonEC2_test2.ttl");	
+				writer.writeFile(ag, "src/test/resources/org/linkedusdl/agreement/xml/");	
 			}
 			
 			model.closeModel();

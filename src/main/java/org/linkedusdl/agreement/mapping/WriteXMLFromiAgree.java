@@ -24,6 +24,7 @@ import es.us.isa.ada.io.IDocumentWriter;
 import es.us.isa.ada.wsag10.AbstractAgreementDocument;
 import es.us.isa.ada.wsag10.Context;
 import es.us.isa.ada.wsag10.GuaranteeTerm;
+import es.us.isa.ada.wsag10.StringSLO;
 import es.us.isa.ada.wsag10.Term;
 
 public class WriteXMLFromiAgree implements IDocumentWriter {
@@ -90,14 +91,19 @@ public class WriteXMLFromiAgree implements IDocumentWriter {
 				Element guaranteeTerm = getDoc().createElement("wsag:GuaranteeTerm");
 				addAttr("wsag:Name", gTerm.getName(), guaranteeTerm);
 				addAttr("wsag:Obligated", gTerm.getObligated(), guaranteeTerm);
+				Element Slo = getDoc().createElement("wsag:ServiceLevelObjective");
+				Element customSlo = getDoc().createElement("wsag:CustomServiceLevel");
+				customSlo.appendChild(getDoc().createTextNode(((StringSLO)gTerm.getSlo()).getSlo()));
+				Slo.appendChild(customSlo);
+				guaranteeTerm.appendChild(Slo);
 				terms.appendChild(guaranteeTerm);
 			}
 			
 		}
 		
 		DOMSource source = new DOMSource(getDoc());
-		//StreamResult result = new StreamResult(new File(destination+"/AmazonEC3.xml"));
-		StreamResult result = new StreamResult(System.out);
+		StreamResult result = new StreamResult(new File(destination+"AmazonEC3.xml"));
+		//StreamResult result = new StreamResult(System.out);
 		
 		
 		try {

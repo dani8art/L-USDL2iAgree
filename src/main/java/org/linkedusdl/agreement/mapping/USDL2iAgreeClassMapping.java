@@ -90,9 +90,9 @@ public class USDL2iAgreeClassMapping {
 	}
 	
 	private static String getShortURI (URI uri){
-		return uri.toString().substring(uri.toString().indexOf("#"));
+		return uri.toString().substring(uri.toString().indexOf("#")+1);
 	}
 	private static String getShortURI (String uri){
-		return uri.substring(uri.indexOf("#"));
+		return uri.substring(uri.indexOf("#")+1);
 	}
 }

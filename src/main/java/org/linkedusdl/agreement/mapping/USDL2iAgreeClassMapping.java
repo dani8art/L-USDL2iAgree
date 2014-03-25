@@ -1,5 +1,8 @@
 package org.linkedusdl.agreement.mapping;
 
-public class USDL2iAgreeClassMapping {
 
+
+public class USDL2iAgreeClassMapping {
+	
+	
 }

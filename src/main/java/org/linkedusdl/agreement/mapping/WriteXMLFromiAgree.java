@@ -19,12 +19,14 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import es.us.isa.ada.document.AbstractDocument;
+import es.us.isa.ada.io.IDocumentWriter;
 import es.us.isa.ada.wsag10.AbstractAgreementDocument;
 import es.us.isa.ada.wsag10.Context;
 import es.us.isa.ada.wsag10.GuaranteeTerm;
 import es.us.isa.ada.wsag10.Term;
 
-public class WriteXMLFromiAgree {
+public class WriteXMLFromiAgree implements IDocumentWriter {
 	
 	protected DocumentBuilderFactory docFactory;
 	protected DocumentBuilder docBuilder;
@@ -51,7 +53,7 @@ public class WriteXMLFromiAgree {
 		this.doc = this.docBuilder.newDocument();
 	}
 	
-	public void write(AbstractAgreementDocument doc, String destination) throws TransformerException{
+	public void writeFile(AbstractDocument doc, String destination){
 		
 		//create root element
 		Element rootElement = getDoc().createElementNS("http://schemas.ggf.org/graap/2007/03/ws-agreement", "wsag:Template");
@@ -68,7 +70,7 @@ public class WriteXMLFromiAgree {
 		rootElement.appendChild(e);
 		
 		//context 
-		Context c = doc.getContext();
+		Context c = ((AbstractAgreementDocument) doc).getContext();
 		Element context = getDoc().createElement("wsag:context");
 		Element responder = getDoc().createElement("wsag:AgreementResponder");
 		responder.appendChild(getDoc().createTextNode("Provider"));
@@ -76,7 +78,7 @@ public class WriteXMLFromiAgree {
 		rootElement.appendChild(context);
 		
 		//terms
-		Collection<Term> cterms = doc.getAllTerms();
+		Collection<Term> cterms = ((AbstractAgreementDocument) doc).getAllTerms();
 		Element terms = getDoc().createElement("wsag:Terms");
 		addAttr("wsag:Name", "AWS-EC2", terms);
 		rootElement.appendChild(terms);
@@ -94,11 +96,16 @@ public class WriteXMLFromiAgree {
 		}
 		
 		DOMSource source = new DOMSource(getDoc());
-		StreamResult result = new StreamResult(new File(destination+"/AmazonEC3.xml"));
-		//StreamResult result = new StreamResult(System.out);
+		//StreamResult result = new StreamResult(new File(destination+"/AmazonEC3.xml"));
+		StreamResult result = new StreamResult(System.out);
 		
 		
-		this.transformer.transform(source, result);
+		try {
+			this.transformer.transform(source, result);
+		} catch (TransformerException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		System.out.println("Document created");
 	}

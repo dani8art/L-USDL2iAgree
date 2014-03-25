@@ -95,7 +95,7 @@ public class ReadTest {
 			}
 			
 			WriteXMLFromiAgree w = new WriteXMLFromiAgree();
-			w.write(ag, "src/test/resources/org/linkedusdl/agreement/xml");
+			w.writeFile(ag, "src/test/resources/org/linkedusdl/agreement/xml");
 			
 		}catch(Exception e){
 			e.printStackTrace();;

@@ -3,9 +3,13 @@ package org.linkedusdl.agreement.model;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
+
 import org.junit.Test;
+import org.linkedusdl.agreement.mapping.USDL2iAgreeClassMapping;
 import org.linkedusdl.agreement.mapping.USDLModel;
+import org.linkedusdl.agreement.mapping.WriteXMLFromiAgree;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
+
 import com.viceversatech.rdfbeans.exceptions.RDFBeanException;
 
 import es.us.isa.ada.wsag10.Agreement;
@@ -19,11 +23,15 @@ public class ReadTest {
 	public void newTest() throws RDFBeanException, ModelRuntimeException, IOException {
 		try{
 			USDLModel model = new USDLModel(getClass().getResourceAsStream("test.ttl"));
-
+			USDL2iAgreeClassMapping mapping = new USDL2iAgreeClassMapping();
+			WriteXMLFromiAgree writer = new WriteXMLFromiAgree();
+			
 			Collection<ServiceOffering> services = model.getServiceOfferings();
 			
 			for(ServiceOffering so : services){
 				printServiceOffering(so);
+				Agreement ag = mapping.transform(so);
+				writer.writeFile(ag, "/src/test/sources/org/linkedusdl/agreement/xml/AmazonEC2_test2.ttl");	
 			}
 			
 			model.closeModel();

@@ -21,7 +21,7 @@ import com.viceversatech.rdfbeans.annotations.RDFSubject;
 })
 
 @RDFBean("owl:Class")
-public interface ValueOfRefersTo {
+public interface ServiceProperty {
 	
 	@RDFSubject
 	public String getId();

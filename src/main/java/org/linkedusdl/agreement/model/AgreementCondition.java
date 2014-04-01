@@ -36,7 +36,7 @@ public interface AgreementCondition {
 	public void setHasValue(ValueOfHasValue uri);
 	
 	@RDF("ag:refersTo")
-	public ValueOfRefersTo getRefersTo();
-	public void setRefersTo(ValueOfRefersTo uri);
+	public ServiceProperty getRefersTo();
+	public void setRefersTo(ServiceProperty uri);
 	
 }

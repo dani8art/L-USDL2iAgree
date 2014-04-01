@@ -36,7 +36,7 @@ public class ReadTest {
 			
 			model.closeModel();
 		}catch(Exception e){
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}	
 

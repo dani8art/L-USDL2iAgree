@@ -22,10 +22,16 @@ import org.w3c.dom.Element;
 import es.us.isa.ada.document.AbstractDocument;
 import es.us.isa.ada.io.IDocumentWriter;
 import es.us.isa.ada.wsag10.AbstractAgreementDocument;
+import es.us.isa.ada.wsag10.Agreement;
+import es.us.isa.ada.wsag10.BusinessValueList;
 import es.us.isa.ada.wsag10.Context;
 import es.us.isa.ada.wsag10.GuaranteeTerm;
+import es.us.isa.ada.wsag10.Penalty;
+import es.us.isa.ada.wsag10.ServiceProperties;
 import es.us.isa.ada.wsag10.StringSLO;
+import es.us.isa.ada.wsag10.StringValueExpr;
 import es.us.isa.ada.wsag10.Term;
+import es.us.isa.ada.wsag10.Variable;
 
 public class WriteXMLFromiAgree implements IDocumentWriter {
 	
@@ -56,6 +62,7 @@ public class WriteXMLFromiAgree implements IDocumentWriter {
 	
 	public void writeFile(AbstractDocument doc, String destination){
 		
+		Agreement ag = (Agreement)doc;
 		//create root element
 		Element rootElement = getDoc().createElementNS("http://schemas.ggf.org/graap/2007/03/ws-agreement", "wsag:Template");
 		getDoc().appendChild(rootElement);
@@ -66,22 +73,19 @@ public class WriteXMLFromiAgree implements IDocumentWriter {
 		addAttr("xsi:schemaLocation", "http://schemas.ggf.org/graap/2007/03/wsagreement", rootElement);
 		addAttr("agreement_types.xsd", "http://www.w3.org/2001/XMLSchema XMLSchema.xsd", rootElement);
 		
-		Element e = getDoc().createElement("wsag:Name");
-		e.appendChild(getDoc().createTextNode("AmazonEC2"));
-		rootElement.appendChild(e);
+		//name of template
+		addElement("wsag:Name", ag.getName(), rootElement);		
 		
 		//context 
-		Context c = ((AbstractAgreementDocument) doc).getContext();
-		Element context = getDoc().createElement("wsag:context");
-		Element responder = getDoc().createElement("wsag:AgreementResponder");
-		responder.appendChild(getDoc().createTextNode("Provider"));
-		context.appendChild(responder);
-		rootElement.appendChild(context);
-		
+		Context c = ag.getContext();
+		addElement("wsag:AgreementResponder","Provider",addElement("wsag:Context", rootElement));
+	
 		//terms
-		Collection<Term> cterms = ((AbstractAgreementDocument) doc).getAllTerms();
+		//compositorTerm		
+		Collection<Term> cterms = ag.getAllTerms();
 		Element terms = getDoc().createElement("wsag:Terms");
 		addAttr("wsag:Name", "AWS-EC2", terms);
+		Element compositor = addElement("wsag:All", terms);		
 		rootElement.appendChild(terms);
 		for( Term t : cterms){
 			String termType = t.getClass().getSimpleName();
@@ -91,12 +95,44 @@ public class WriteXMLFromiAgree implements IDocumentWriter {
 				Element guaranteeTerm = getDoc().createElement("wsag:GuaranteeTerm");
 				addAttr("wsag:Name", gTerm.getName(), guaranteeTerm);
 				addAttr("wsag:Obligated", gTerm.getObligated(), guaranteeTerm);
-				Element Slo = getDoc().createElement("wsag:ServiceLevelObjective");
-				Element customSlo = getDoc().createElement("wsag:CustomServiceLevel");
-				customSlo.appendChild(getDoc().createTextNode(((StringSLO)gTerm.getSlo()).getSlo()));
-				Slo.appendChild(customSlo);
-				guaranteeTerm.appendChild(Slo);
-				terms.appendChild(guaranteeTerm);
+				//add SLO
+				addElement("wsag:CustomServiceLevel", ((StringSLO)gTerm.getSlo()).getSlo(), 
+						addElement("wsag:ServiceLevelObjective", guaranteeTerm));				
+				//add BSL
+				BusinessValueList bsl = gTerm.getBvl();
+				//penalty
+				Element businessValueList = getDoc().createElement("wsag:BusinessValueList");
+				for (Penalty p : bsl.getPenalties()){
+					Element penalty = getDoc().createElement("wsag:Penalty");
+					//assesmentInterval
+					Element assesmentInterval = addElement("wsag:AssesmentInterval", penalty);
+					addElement("wsag:TimeInterval", "", assesmentInterval);
+					addElement("wsag:Count", "", assesmentInterval);
+					//valueUnit
+					addElement("wsag:ValueUnit", p.getValueUnit(), penalty);
+					//valueExp
+					addElement("wsag:ValueExpr", ((StringValueExpr)p.getVExp()).getValueExpr(), penalty);
+					
+					businessValueList.appendChild(penalty);
+				}
+				guaranteeTerm.appendChild(businessValueList);
+				
+				compositor.appendChild(guaranteeTerm);
+				
+			}else if (termType.equals("ServiceProperties")){
+				ServiceProperties sps = (ServiceProperties) t;
+				Element serviceProperties = getDoc().createElement("wsag:ServiceProperties");
+				addAttr("wsag:Name", sps.getName(), serviceProperties);
+				addAttr("wsag:ServiceName", sps.getServiceName(), serviceProperties);
+				Element variables = getDoc().createElement("wsag:VariableSet");
+				for (Variable v : sps.getVariableSet()){
+					Element var = getDoc().createElement("wsag:Variable");
+					addAttr("wsag:Name", v.getName(), var);
+					addElement("wsag:Location", v.getLocation().getContent(),var);
+					variables.appendChild(var);
+				}
+				serviceProperties.appendChild(variables);
+				compositor.appendChild(serviceProperties);
 			}
 			
 		}
@@ -128,5 +164,17 @@ public class WriteXMLFromiAgree implements IDocumentWriter {
 		Attr attr = getDoc().createAttribute(name);
 		attr.setValue(value);
 		element.setAttributeNode(attr);
+	}
+	
+	private Element addElement (String elementName, Element root){
+		Element e = getDoc().createElement(elementName);
+		root.appendChild(e);
+		return e;
+	}
+	private Element addElement (String elementName, String textNode, Element root){
+		Element e = getDoc().createElement(elementName);
+		e.appendChild(getDoc().createTextNode(textNode));
+		root.appendChild(e);
+		return e; 
 	}
 }

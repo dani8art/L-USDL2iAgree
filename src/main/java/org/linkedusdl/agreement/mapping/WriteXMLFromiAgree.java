@@ -138,7 +138,7 @@ public class WriteXMLFromiAgree implements IDocumentWriter {
 		}
 		
 		DOMSource source = new DOMSource(getDoc());
-		StreamResult result = new StreamResult(new File(destination+"AmazonEC3.xml"));
+		StreamResult result = new StreamResult(new File(destination));
 		//StreamResult result = new StreamResult(System.out);
 		
 		

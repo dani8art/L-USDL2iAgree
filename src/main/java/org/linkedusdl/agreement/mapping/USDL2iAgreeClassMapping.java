@@ -55,17 +55,19 @@ public class USDL2iAgreeClassMapping {
 				//BusinessValueList
 				// Penalty
 				AgreementCondition penalty = gt.getHasCompensation();
-				BusinessValueList bsl = new BusinessValueList();
-				Penalty pl = new Penalty();
-				//TimeInterval tinter = new TimeInterval();
-				//tinter.setDuration("");
-				pl.setValueUnit(getShortURI(penalty.getId()));
-				StringValueExpr vl = new StringValueExpr();
-				vl.setValueExpr("of "+getConditionExpFromAgC(penalty)+ " if "+
-						getPenaltyExpFromAgC(agC));
-				pl.setVExp(vl);
-				//add Penalty and add bsl to GuaranteeTerm 
-				bsl.addPenalty(pl); gtwsag.setBvl(bsl);
+				if(penalty != null){
+					BusinessValueList bsl = new BusinessValueList();
+					Penalty pl = new Penalty();
+					//TimeInterval tinter = new TimeInterval();
+					//tinter.setDuration("");
+					pl.setValueUnit(getShortURI(penalty.getId()));
+					StringValueExpr vl = new StringValueExpr();
+					vl.setValueExpr("of "+getConditionExpFromAgC(penalty)+ " if "+
+							getPenaltyExpFromAgC(agC));
+					pl.setVExp(vl);
+					//add Penalty and add bsl to GuaranteeTerm 
+					bsl.addPenalty(pl); gtwsag.setBvl(bsl);
+				}
 				
 				//refersTo a SP
 				ServiceProperty sp = agC.getRefersTo();

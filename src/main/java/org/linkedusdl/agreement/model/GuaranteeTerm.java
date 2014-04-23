@@ -2,6 +2,7 @@ package org.linkedusdl.agreement.model;
 
 
 import java.net.URI;
+import java.util.Collection;
 
 import com.viceversatech.rdfbeans.annotations.RDF;
 import com.viceversatech.rdfbeans.annotations.RDFBean;
@@ -29,8 +30,8 @@ public interface GuaranteeTerm {
 	public void setId(String id);
 
 	@RDF("ag:hasCompensation")
-	public AgreementCondition getHasCompensation();
-	public void setHasCompensation(AgreementCondition hasCompensation);
+	public Collection<GuaranteeTerm> getHasCompensation();
+	public void setHasCompensation(Collection<GuaranteeTerm> hasCompensation);
 	
 	@RDF("ag:guarantees")
 	public AgreementCondition getGuarantees();

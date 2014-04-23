@@ -38,7 +38,7 @@
 
 :amazonEC2ServiceOfferingM1LargeInstanceType
       rdf:type usdl:ServiceOffering ;
-      ag:complyWith :ec2ServiceCommitment ;
+      ag:compliesWith :ec2ServiceCommitment ;
       usdl:includes :ec2M1LargeInstanceType .
 
 :annualUptimeMetric
@@ -50,7 +50,7 @@
 :annualUptimePercentage
       rdf:type rdf:Property ;
       ag:hasMetric :annualUptimeMetric ;
-      rdfs:subPropertyOf gr:quantitativeProductOrServiceProperty . 
+      rdfs:subPropertyOf gr:quantitativeProductOrServiceProperty .
 
 :ec2ClusterComputeEightExtraLargeInstanceType
       rdf:type cloud:ComputationService ;
@@ -464,8 +464,9 @@
                 ag:refersTo :annualUptimePercentage ;
                 qudt:unit <http://qudt.org/vocab/unit#Percent>
               ] ;
-      ag:hasCompensation :ec2ServiceCredit .
+      ag:hasCompensation :ec2ServiceCredit10 , :ec2ServiceCredit30 .
 
+#old compensation. note that it was previously an AgreementCondition
 :ec2ServiceCredit
       rdf:type ag:GuaranteedValue ;
       ag:hasValue
@@ -473,3 +474,46 @@
                 gr:hasValueFloat "10"^^xsd:float
               ] ;
       ag:refersTo :ServiceCreditPercentage .
+      
+:ec2ServiceCredit10
+      rdf:type ag:GuaranteeTerm ;
+      ag:guarantees
+               [ rdf:type ag:GuaranteedValue ;
+                 ag:hasValue
+                         [ rdf:type gr:QuantitativeValueFloat ;
+                           gr:hasValueFloat "10"^^xsd:float
+                         ] ;
+                 ag:refersTo :ServiceCreditPercentage; 
+                 qudt:unit <http://qudt.org/vocab/unit#Percent>
+              ] ;
+      ag:hasPrecondition
+              [ rdf:type ag:MinGuaranteedValue ;
+                ag:hasValue
+                        [ rdf:type gr:QuantitativeValueFloat ;
+                          gr:hasValueFloat "99"^^xsd:float
+                        ] ;
+                ag:refersTo :annualUptimePercentage ;
+                qudt:unit <http://qudt.org/vocab/unit#Percent>
+              ] .
+
+:ec2ServiceCredit30
+      rdf:type ag:GuaranteeTerm ;
+      ag:guarantees
+               [ rdf:type ag:GuaranteedValue ;
+                 ag:hasValue
+                         [ rdf:type gr:QuantitativeValueFloat ;
+                           gr:hasValueFloat "30"^^xsd:float
+                         ] ;
+                 ag:refersTo :ServiceCreditPercentage ;
+                 qudt:unit <http://qudt.org/vocab/unit#Percent>
+              ] ;
+      ag:hasPrecondition
+              [ rdf:type ag:MaxGuaranteedValue ;
+                ag:hasValue
+                        [ rdf:type gr:QuantitativeValueFloat ;
+                          gr:hasValueFloat "99"^^xsd:float
+                        ] ;
+                ag:refersTo :annualUptimePercentage ;
+                qudt:unit <http://qudt.org/vocab/unit#Percent>
+              ] .
+ 

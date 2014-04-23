@@ -1,6 +1,7 @@
 package org.linkedusdl.agreement.mapping;
 
 import java.net.URI;
+import java.util.Collection;
 
 import org.linkedusdl.agreement.model.AgreementCondition;
 import org.linkedusdl.agreement.model.Metric;
@@ -41,7 +42,7 @@ public class USDL2iAgreeClassMapping {
 			ServiceProperties sps = new ServiceProperties();
 			
 			int n = 1; //var auxiliar para nombrar terms
-			for( GuaranteeTerm gt: in.getComplyWith() ){
+			for( GuaranteeTerm gt: in.getCompliesWith() ){
 				
 				es.us.isa.ada.wsag10.GuaranteeTerm gtwsag = new es.us.isa.ada.wsag10.GuaranteeTerm();
 				gtwsag.setName("G"+n); // establece el nombre del GuaranteeTerm.
@@ -54,16 +55,16 @@ public class USDL2iAgreeClassMapping {
 				
 				//BusinessValueList
 				// Penalty
-				AgreementCondition penalty = gt.getHasCompensation();
-				if(penalty != null){
-					BusinessValueList bsl = new BusinessValueList();
+				Collection<GuaranteeTerm> penalties = gt.getHasCompensation();
+				BusinessValueList bsl = new BusinessValueList();
+				for(GuaranteeTerm penalty : penalties){					
 					Penalty pl = new Penalty();
 					//TimeInterval tinter = new TimeInterval();
 					//tinter.setDuration("");
-					pl.setValueUnit(getShortURI(penalty.getId()));
+					pl.setValueUnit(getShortURI(penalty.getGuarantees().getRefersTo().getId()));
 					StringValueExpr vl = new StringValueExpr();
-					vl.setValueExpr("of "+getConditionExpFromAgC(penalty)+ " if "+
-							getPenaltyExpFromAgC(agC));
+					vl.setValueExpr("of "+getConditionExpFromAgC(penalty.getGuarantees())+ " if "+
+							getConditionExpFromAgC(penalty.getHasPrecondition()));
 					pl.setVExp(vl);
 					//add Penalty and add bsl to GuaranteeTerm 
 					bsl.addPenalty(pl); gtwsag.setBvl(bsl);

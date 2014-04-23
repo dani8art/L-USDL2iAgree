@@ -46,7 +46,7 @@ public class ReadTest {
 		Agreement ag = new Agreement();
 		ag.setName(so.getId());
 		try{
-			for (GuaranteeTerm gt: so.getComplyWith()) {
+			for (GuaranteeTerm gt: so.getCompliesWith()) {
 				es.us.isa.ada.wsag10.GuaranteeTerm gr = new es.us.isa.ada.wsag10.GuaranteeTerm();
 				
 				System.out.println("- Guarantee Term: " + gt.getId());
@@ -70,9 +70,9 @@ public class ReadTest {
 					ag.getAllTerms().add(sp);
 				System.out.println("---------hasMetric: " + a.getRefersTo().getHasMetric().getId());
 				System.out.println("-----------Expression: "+ a.getRefersTo().getHasMetric().getHasExpression());
-				AgreementCondition b = gt.getHasCompensation();
-				System.out.println("----- Compensation: " + b.getId());
-				System.out.println("------- refersTo: "+ b.getRefersTo().getId());
+				for(GuaranteeTerm b: gt.getHasCompensation()){
+					System.out.println("----- Compensation: " + b.getId());
+				}
 				
 			
 			}

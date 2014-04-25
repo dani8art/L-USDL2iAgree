@@ -29,10 +29,11 @@ public class ReadTest {
 			Collection<ServiceOffering> services = model.getServiceOfferings();
 			
 			for(ServiceOffering so : services){
-				printServiceOffering(so);
-				Agreement ag = mapping.transform(so);
-				writer.writeFile(ag, "src/test/resources/org/linkedusdl/agreement/xml/");	
+				printServiceOffering(so);	
 			}
+
+			Agreement ag = mapping.transform(model);
+			writer.writeFile(ag, "src/test/resources/org/linkedusdl/agreement/xml/");
 			
 			model.closeModel();
 		}catch(Exception e){

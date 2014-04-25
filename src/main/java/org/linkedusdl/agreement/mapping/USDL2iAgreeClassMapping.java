@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Collection;
 
 import org.linkedusdl.agreement.model.AgreementCondition;
+import org.linkedusdl.agreement.model.ComputationService;
 import org.linkedusdl.agreement.model.Metric;
 import org.linkedusdl.agreement.model.ServiceOffering;
 import org.linkedusdl.agreement.model.ServiceProperty;
@@ -22,6 +23,8 @@ import es.us.isa.ada.wsag10.Variable;
 
 import org.linkedusdl.agreement.model.GuaranteeTerm;
 
+import com.viceversatech.rdfbeans.exceptions.RDFBeanException;
+
 
 
 public class USDL2iAgreeClassMapping {
@@ -32,68 +35,80 @@ public class USDL2iAgreeClassMapping {
 		this.document = new Agreement();				
 	}
 	
-	public Agreement transform (ServiceOffering in){
+	public Agreement transform (USDLModel model) throws RDFBeanException{
 		// Name = URI
-		try{
-			getDocument().setName(getShortURI(in.getId()));		
-			
-			TermCompositor tcmp = new TermCompositor();
-			//sp que seran obtenidas de los refersTo de cada GuarateTerm
-			ServiceProperties sps = new ServiceProperties();
-			
-			int n = 1; //var auxiliar para nombrar terms
-			for( GuaranteeTerm gt: in.getCompliesWith() ){
+		
+		Collection<ServiceOffering> servicesOfferings = model.getServiceOfferings();
+		Collection<ComputationService> computationService = model.getComputationServices();
+		
+		for (ServiceOffering in : servicesOfferings){
+			try{
+				getDocument().setName(getShortURI(in.getId()));		
 				
-				es.us.isa.ada.wsag10.GuaranteeTerm gtwsag = new es.us.isa.ada.wsag10.GuaranteeTerm();
-				gtwsag.setName("G"+n); // establece el nombre del GuaranteeTerm.
+				TermCompositor tcmp = new TermCompositor();
+				//sp que seran obtenidas de los refersTo de cada GuarateTerm
+				ServiceProperties sps = new ServiceProperties();
 				
-				// service level objective
-				AgreementCondition agC = gt.getGuarantees();
-				StringSLO slo = new StringSLO();
-				slo.setSlo(getConditionExpFromAgC(agC));
-				gtwsag.setSlo(slo);
-				
-				//BusinessValueList
-				// Penalty
-				Collection<GuaranteeTerm> penalties = gt.getHasCompensation();
-				BusinessValueList bsl = new BusinessValueList();
-				for(GuaranteeTerm penalty : penalties){					
-					Penalty pl = new Penalty();
-					//TimeInterval tinter = new TimeInterval();
-					//tinter.setDuration("");
-					pl.setValueUnit(getShortURI(penalty.getGuarantees().getRefersTo().getId()));
-					StringValueExpr vl = new StringValueExpr();
-					vl.setValueExpr("of "+getConditionExpFromAgC(penalty.getGuarantees())+ " if "+
-							getConditionExpFromAgC(penalty.getHasPrecondition()));
-					pl.setVExp(vl);
-					//add Penalty and add bsl to GuaranteeTerm 
-					bsl.addPenalty(pl); gtwsag.setBvl(bsl);
+				int n = 1; //var auxiliar para nombrar terms
+				for( GuaranteeTerm gt: in.getCompliesWith() ){
+					
+					es.us.isa.ada.wsag10.GuaranteeTerm gtwsag = new es.us.isa.ada.wsag10.GuaranteeTerm();
+					gtwsag.setName("G"+n); // establece el nombre del GuaranteeTerm.
+					
+					// service level objective
+					AgreementCondition agC = gt.getGuarantees();
+					StringSLO slo = new StringSLO();
+					slo.setSlo(getConditionExpFromAgC(agC));
+					gtwsag.setSlo(slo);
+					
+					//BusinessValueList
+					// Penalty
+					Collection<GuaranteeTerm> penalties = gt.getHasCompensation();
+					BusinessValueList bsl = new BusinessValueList();
+					for(GuaranteeTerm penalty : penalties){					
+						Penalty pl = new Penalty();
+						//TimeInterval tinter = new TimeInterval();
+						//tinter.setDuration("");
+						pl.setValueUnit(getShortURI(penalty.getGuarantees().getRefersTo().getId()));
+						StringValueExpr vl = new StringValueExpr();
+						vl.setValueExpr("of "+getConditionExpFromAgC(penalty.getGuarantees())+ " if "+
+								getConditionExpFromAgC(penalty.getHasPrecondition()));
+						pl.setVExp(vl);
+						//add Penalty and add bsl to GuaranteeTerm 
+						bsl.addPenalty(pl); gtwsag.setBvl(bsl);
+					}
+					
+					//refersTo a SP
+					ServiceProperty sp = agC.getRefersTo();
+					Variable v = new Variable();
+					Metric m = sp.getHasMetric();
+					v.setName(getShortURI(sp.getId()));
+					v.setLocation(new Location(m.getId()));
+					sps.getVariableSet().add(v);
+							
+					//add GuaranteeTerm to agreement
+					tcmp.addComprisedTerm(gtwsag);
+					
+					
 				}
+				//add SP
+				tcmp.addComprisedTerm(sps);
 				
-				//refersTo a SP
-				ServiceProperty sp = agC.getRefersTo();
-				Variable v = new Variable();
-				Metric m = sp.getHasMetric();
-				v.setName(getShortURI(sp.getId()));
-				v.setLocation(new Location(m.getId()));
-				sps.getVariableSet().add(v);
-						
-				//add GuaranteeTerm to agreement
-				tcmp.addComprisedTerm(gtwsag);
+				//add Terms
+				getDocument().setTerms(tcmp);
 				
-				
+			}catch(Exception e){
+				e.printStackTrace();
 			}
-			//add SP
-			tcmp.addComprisedTerm(sps);
-			
-			//add Terms
-			getDocument().setTerms(tcmp);
-			
-		}catch(Exception e){
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 		}
 		
+		for (ComputationService cp : computationService){
+			try{
+				
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 		return document;		
 	}
 

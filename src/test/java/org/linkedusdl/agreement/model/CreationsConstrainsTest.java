@@ -13,9 +13,7 @@ import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import com.viceversatech.rdfbeans.exceptions.RDFBeanException;
 
 import es.us.isa.ada.wsag10.Agreement;
-import es.us.isa.ada.wsag10.ServiceProperties;
-import es.us.isa.ada.wsag10.StringSLO;
-import es.us.isa.ada.wsag10.Variable;
+
 
 public class CreationsConstrainsTest {
 
@@ -25,15 +23,10 @@ public class CreationsConstrainsTest {
 			USDLModel model = new USDLModel(getClass().getResourceAsStream("amazonEC2.ttl"));
 			USDL2iAgreeClassMapping mapping = new USDL2iAgreeClassMapping();
 			WriteXMLFromiAgree writer = new WriteXMLFromiAgree();
-//			
-//			Collection<ServiceOffering> services = model.getServiceOfferings();
-//			
-//			for(ServiceOffering so : services){
-//				printServiceOffering(so);
-//				Agreement ag = mapping.transform(so);
-//				writer.writeFile(ag, "src/test/resources/org/linkedusdl/agreement/xml/"+"AmazonEC3_penalty.xml");	
-//			}
 			
+			Agreement ag = mapping.transform(model);
+			writer.writeFile(ag, "src/test/resources/org/linkedusdl/agreement/xml/"+"AmazonEC3_penalty.xml");	
+
 			Collection<ComputationService> computationServices = model.getComputationServices();
 			
 			for (ComputationService cs: computationServices){

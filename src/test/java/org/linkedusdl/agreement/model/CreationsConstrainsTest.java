@@ -49,10 +49,25 @@ public class CreationsConstrainsTest {
 	private void printComputationService(ComputationService cs) {
 		try{
 			
-			System.out.println("Computation Service:" + cs.getId());
-		
+			System.out.println("Computation Service: " + cs.getId());
+			if(cs.getHasComputingPerformance() != null){
+				System.out.println("--Computing performance: "+ cs.getHasComputingPerformance().getHasValueFloat());
+			}
+			if(cs.getHasIOPerformance() != null){
+				System.out.println("--IO Performance: " + cs.getHasIOPerformance());
+			}
+			if(cs.getHasInternalStorage() != null){
+				System.out.println("--Internal Storage: "+ cs.getHasInternalStorage().getHasValueFloat());
+			}
+			if(cs.getHasMemory() != null){
+				System.out.println("--Memory: "+ cs.getHasMemory().getHasValueFloat());
+			}
+			if(cs.getHasVirtualCores() != null){
+				System.out.println("--Virtual Cores: "+ cs.getHasVirtualCores().getHasValueInteger());
+			}
+			
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	

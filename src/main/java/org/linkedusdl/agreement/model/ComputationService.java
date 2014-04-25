@@ -1,5 +1,7 @@
 package org.linkedusdl.agreement.model;
 
+import java.net.URI;
+
 import com.viceversatech.rdfbeans.annotations.RDF;
 import com.viceversatech.rdfbeans.annotations.RDFBean;
 import com.viceversatech.rdfbeans.annotations.RDFNamespaces;
@@ -30,8 +32,8 @@ public interface ComputationService {
 	public void setHasComputingPerformance(Value hasComputingPerformance);
 	
 	@RDF("cloud:hasIOPerformance")
-	public Value getHasIOPerformance();
-	public void setHasIOPerformance(Value hasIOPerformance);
+	public URI getHasIOPerformance();
+	public void setHasIOPerformance(URI hasIOPerformance);
 	
 	@RDF("cloud:hasInternalStorage") 
 	public Value getHasInternalStorage();

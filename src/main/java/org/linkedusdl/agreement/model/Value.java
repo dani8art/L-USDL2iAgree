@@ -18,6 +18,6 @@ import com.viceversatech.rdfbeans.annotations.RDFNamespaces;
 })
 
 @RDFBean("owl:Class")
-public interface ValueOfHasValue extends QuantitativeValueFloat, QuantitativeValueInteger {
+public interface Value extends QuantitativeValueFloat, QuantitativeValueInteger {
 	
 }

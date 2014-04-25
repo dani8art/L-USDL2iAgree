@@ -1,7 +1,5 @@
 package org.linkedusdl.agreement.model;
 
-import java.net.URI;
-
 import com.viceversatech.rdfbeans.annotations.RDF;
 import com.viceversatech.rdfbeans.annotations.RDFBean;
 import com.viceversatech.rdfbeans.annotations.RDFNamespaces;
@@ -20,23 +18,31 @@ import com.viceversatech.rdfbeans.annotations.RDFSubject;
 	"rdfs =  http://www.w3.org/2000/01/rdf-schema#"
 })
 
-@RDFBean("ag:AgreementCondition")
-public interface AgreementCondition {
+@RDFBean("cloud:ComputationService")
+public interface ComputationService {
 	
 	@RDFSubject
 	public String getId();
 	public void setId(String id);
+
+	@RDF("cloud:hasComputingPerformance")
+	public Value getHasComputingPerformance();
+	public void setHasComputingPerformance(Value hasComputingPerformance);
 	
-	@RDF("rdf:type")
-	public URI getType();
-	public void setType( URI uri);
+	@RDF("cloud:hasIOPerformance")
+	public Value getHasIOPerformance();
+	public void setHasIOPerformance(Value hasIOPerformance);
 	
-	@RDF("ag:hasValue")
-	public Value getHasValue();
-	public void setHasValue(Value uri);
+	@RDF("cloud:hasInternalStorage") 
+	public Value getHasInternalStorage();
+	public void setHasInternalStorage(Value hasInternalStorage);
 	
-	@RDF("ag:refersTo")
-	public ServiceProperty getRefersTo();
-	public void setRefersTo(ServiceProperty uri);
+	@RDF("cloud:hasMemory")
+	public Value getHasMemory();
+	public void setHasMemory(Value hasMemory);
+	
+	@RDF("cloud:hasVirtualCores")
+	public Value getHasVirtualCores();
+	public void setHasVirtualCores(Value hasVirtualCores );
 	
 }

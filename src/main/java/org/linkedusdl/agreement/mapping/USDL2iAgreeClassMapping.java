@@ -121,22 +121,22 @@ public class USDL2iAgreeClassMapping {
 		return ret;
 	}
 	
-	private String getPenaltyExpFromAgC(AgreementCondition agC){
-		String ret = "";
-		String type = getShortURI(agC.getType());
-		
-		if (type.equals("MinGuaranteedValue")){
-			ret += getShortURI(agC.getRefersTo().getId()) + " < " + getAgCValue(agC).toString();
-		}else if (type.equals("MaxGuaranteedValue")){
-			ret += getShortURI(agC.getRefersTo().getId()) + " > " + getAgCValue(agC).toString();
-		}else if (type.equals("GuaranteedValue")){
-			ret += getShortURI(agC.getRefersTo().getId()) + " != " + getAgCValue(agC).toString();
-		}else{
-			
-		}
-		return ret;
-	}
-	
+//	private String getPenaltyExpFromAgC(AgreementCondition agC){
+//		String ret = "";
+//		String type = getShortURI(agC.getType());
+//		
+//		if (type.equals("MinGuaranteedValue")){
+//			ret += getShortURI(agC.getRefersTo().getId()) + " < " + getAgCValue(agC).toString();
+//		}else if (type.equals("MaxGuaranteedValue")){
+//			ret += getShortURI(agC.getRefersTo().getId()) + " > " + getAgCValue(agC).toString();
+//		}else if (type.equals("GuaranteedValue")){
+//			ret += getShortURI(agC.getRefersTo().getId()) + " != " + getAgCValue(agC).toString();
+//		}else{
+//			
+//		}
+//		return ret;
+//	}
+//	
 	private static Object getAgCValue(AgreementCondition agc){
 		Object ret = null;
 		

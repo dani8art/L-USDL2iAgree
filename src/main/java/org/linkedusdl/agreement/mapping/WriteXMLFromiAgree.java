@@ -25,15 +25,19 @@ import es.us.isa.ada.wsag10.AbstractAgreementDocument;
 import es.us.isa.ada.wsag10.Agreement;
 import es.us.isa.ada.wsag10.BusinessValueList;
 import es.us.isa.ada.wsag10.Context;
+import es.us.isa.ada.wsag10.CreationConstraints;
+import es.us.isa.ada.wsag10.GeneralConstraint;
 import es.us.isa.ada.wsag10.GuaranteeTerm;
+import es.us.isa.ada.wsag10.OfferItem;
 import es.us.isa.ada.wsag10.Penalty;
+import es.us.isa.ada.wsag10.ServiceDescriptionTerm;
 import es.us.isa.ada.wsag10.ServiceProperties;
 import es.us.isa.ada.wsag10.StringSLO;
 import es.us.isa.ada.wsag10.StringValueExpr;
 import es.us.isa.ada.wsag10.Term;
 import es.us.isa.ada.wsag10.Variable;
 
-public class WriteXMLFromiAgree implements IDocumentWriter {
+public class WriteXMLFromiAgree {
 	
 	protected DocumentBuilderFactory docFactory;
 	protected DocumentBuilder docBuilder;
@@ -60,7 +64,7 @@ public class WriteXMLFromiAgree implements IDocumentWriter {
 		this.doc = this.docBuilder.newDocument();
 	}
 	
-	public void writeFile(AbstractDocument doc, String destination){
+	public void writeFile(AbstractDocument doc, CreationConstraints cc, String destination){
 		
 		Agreement ag = (Agreement)doc;
 		//create root element
@@ -133,10 +137,36 @@ public class WriteXMLFromiAgree implements IDocumentWriter {
 				}
 				serviceProperties.appendChild(variables);
 				compositor.appendChild(serviceProperties);
+			}else if (termType.equals("ServiceDescriptionTerm")){
+				ServiceDescriptionTerm SDT = (ServiceDescriptionTerm) t;
+				Element serviceDescriptionTerm = getDoc().createElement("wsag:ServiceDescriptionTerm");
+				addAttr("wsag:Name", "SDT_"+SDT.getServiceName(),  serviceDescriptionTerm);
+				addAttr("wsag:ServiceName", SDT.getServiceName(),  serviceDescriptionTerm);
+				for (OfferItem offi : SDT.getOfferItems()){
+					Element offerItem = getDoc().createElement("wsag:OfferItem");
+					addAttr("name", offi.getName(), offerItem);
+					addAttr("wsag:Metric", offi.getRestriction().getBaseType(), offerItem);
+					serviceDescriptionTerm.appendChild(offerItem);
+				}
+				compositor.appendChild(serviceDescriptionTerm);
 			}
 			
 		}
 		
+		Element creationConstraint = getDoc().createElement("wsag:CreationConstraints");
+		int i= 0;
+		for (GeneralConstraint gc: cc.getConstraints()){
+			Element Constraint = getDoc().createElement("wsag:Constraint");
+			Element name =getDoc().createElement("Name");
+			name.appendChild(getDoc().createTextNode("C"+i));
+			i++;
+			Element content = getDoc().createElement("Content");
+			content.appendChild(getDoc().createTextNode(gc.getConstraint()));
+			Constraint.appendChild(name); Constraint.appendChild(content);
+			creationConstraint.appendChild(Constraint);
+		}
+		
+		rootElement.appendChild(creationConstraint);
 		DOMSource source = new DOMSource(getDoc());
 		StreamResult result = new StreamResult(new File(destination));
 		//StreamResult result = new StreamResult(System.out);

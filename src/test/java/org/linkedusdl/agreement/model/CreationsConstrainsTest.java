@@ -25,7 +25,7 @@ public class CreationsConstrainsTest {
 			WriteXMLFromiAgree writer = new WriteXMLFromiAgree();
 			
 			Agreement ag = mapping.transform(model);
-			writer.writeFile(ag, "src/test/resources/org/linkedusdl/agreement/xml/"+"AmazonEC3_penalty.xml");	
+			writer.writeFile(ag, mapping.getCC(), "src/test/resources/org/linkedusdl/agreement/xml/"+"AmazonEC3_penalty.xml");	
 
 			Collection<ComputationService> computationServices = model.getComputationServices();
 			

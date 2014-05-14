@@ -6,7 +6,6 @@ import java.util.Collection;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.events.Namespace;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -20,8 +19,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import es.us.isa.ada.document.AbstractDocument;
-import es.us.isa.ada.io.IDocumentWriter;
-import es.us.isa.ada.wsag10.AbstractAgreementDocument;
 import es.us.isa.ada.wsag10.Agreement;
 import es.us.isa.ada.wsag10.BusinessValueList;
 import es.us.isa.ada.wsag10.Context;

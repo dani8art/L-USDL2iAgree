@@ -2,20 +2,15 @@ package org.linkedusdl.agreement.mapping;
 
 import java.net.URI;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import org.linkedusdl.agreement.model.AgreementCondition;
 import org.linkedusdl.agreement.model.ComputationService;
-import org.linkedusdl.agreement.model.CreationsConstrainsTest;
 import org.linkedusdl.agreement.model.Metric;
 import org.linkedusdl.agreement.model.ServiceOffering;
 import org.linkedusdl.agreement.model.ServiceProperty;
 
-import es.us.isa.ada.wsag10.Agreement;
-import es.us.isa.ada.wsag10.AssesmentInterval;
 import es.us.isa.ada.wsag10.BusinessValueList;
 import es.us.isa.ada.wsag10.CreationConstraints;
 import es.us.isa.ada.wsag10.GeneralConstraint;
@@ -27,8 +22,6 @@ import es.us.isa.ada.wsag10.ServiceDescriptionTerm;
 import es.us.isa.ada.wsag10.ServiceProperties;
 import es.us.isa.ada.wsag10.StringSLO;
 import es.us.isa.ada.wsag10.StringValueExpr;
-import es.us.isa.ada.wsag10.TermCompositor;
-import es.us.isa.ada.wsag10.TimeInterval;
 import es.us.isa.ada.wsag10.Variable;
 
 import org.linkedusdl.agreement.model.GuaranteeTerm;
@@ -36,43 +29,31 @@ import org.linkedusdl.agreement.model.GuaranteeTerm;
 import com.viceversatech.rdfbeans.exceptions.RDFBeanException;
 
 
-
-public class USDL2iAgreeClassMapping {
-	
-	protected Agreement document;
-	protected CreationConstraints cc;
-	
-	public USDL2iAgreeClassMapping (){
-		this.document = new Agreement();
-		this.cc = new CreationConstraints();
+public class AmazonUSDL2iAgreeMapper extends USDL2iAgreeMapper{
+		
+	public AmazonUSDL2iAgreeMapper (USDLModel model){
+		super(model);
+		getDocument().setName("AmazonEC2");		
 	}
 	
-	public Agreement transform (USDLModel model) throws RDFBeanException{
-		// Name = URI
+	public Collection<es.us.isa.ada.wsag10.GuaranteeTerm> getGuaranteeTerms(){
+		Collection<es.us.isa.ada.wsag10.GuaranteeTerm> ret = new LinkedList<es.us.isa.ada.wsag10.GuaranteeTerm>();
+		try{
+			Collection<ServiceOffering> servicesOfferings = getServiceOfferings();
 		
-		Collection<ServiceOffering> servicesOfferings = model.getServiceOfferings();
-		Collection<ComputationService> computationService = model.getComputationServices();
-		
-		for (ServiceOffering in : servicesOfferings){
-			try{
-				getDocument().setName(getShortURI(in.getId()));		
-				
-				TermCompositor tcmp = new TermCompositor();
-				//sp que seran obtenidas de los refersTo de cada GuarateTerm
-				ServiceProperties sps = new ServiceProperties();
-				
+			for (ServiceOffering in : servicesOfferings){					
 				int n = 1; //var auxiliar para nombrar terms
 				for( GuaranteeTerm gt: in.getCompliesWith() ){
-					
+						
 					es.us.isa.ada.wsag10.GuaranteeTerm gtwsag = new es.us.isa.ada.wsag10.GuaranteeTerm();
 					gtwsag.setName("G"+n); // establece el nombre del GuaranteeTerm.
-					
-					// service level objective
+						
+						// service level objective
 					AgreementCondition agC = gt.getGuarantees();
 					StringSLO slo = new StringSLO();
 					slo.setSlo(getConditionExpFromAgC(agC));
 					gtwsag.setSlo(slo);
-					
+						
 					//BusinessValueList
 					// Penalty
 					Collection<GuaranteeTerm> penalties = gt.getHasCompensation();
@@ -90,47 +71,58 @@ public class USDL2iAgreeClassMapping {
 						bsl.addPenalty(pl); gtwsag.setBvl(bsl);
 					}
 					
-					//refersTo a SP
+					//add GuaranteeTerm to agreement
+					ret.add(gtwsag);							
+				}
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return ret;		
+	}
+	
+	public ServiceProperties getServiceProperties(){
+		//sp que seran obtenidas de los refersTo de cada GuarateTerm
+		ServiceProperties sps = new ServiceProperties();
+		try{
+			Collection<ServiceOffering> servicesOfferings = getServiceOfferings();
+		
+			for (ServiceOffering in : servicesOfferings){
+				
+				for( GuaranteeTerm gt: in.getCompliesWith() ){
+					
+					AgreementCondition agC = gt.getGuarantees();
 					ServiceProperty sp = agC.getRefersTo();
 					Variable v = new Variable();
 					Metric m = sp.getHasMetric();
 					v.setName(getShortURI(sp.getId()));
 					v.setLocation(new Location(m.getId()));
 					sps.getVariableSet().add(v);
-							
-					//add GuaranteeTerm to agreement
-					tcmp.addComprisedTerm(gtwsag);
-					
 					
 				}
-				//add SP
-				tcmp.addComprisedTerm(sps);
-				
-				//add Terms
-				getDocument().setTerms(tcmp);
-				
-			}catch(Exception e){
-				e.printStackTrace();
 			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-		
+		return sps;	
+	}
+	
+	public ServiceDescriptionTerm getServiceDescriptionTerm(){
 		//add service description term
 		ServiceDescriptionTerm SDT = new ServiceDescriptionTerm();
-		SDT.setName("SDT_AmazonEC2");
-		SDT.setServiceName("AmazonEC2");
-		//InstanceType
-		OfferItem offi = new OfferItem(SDT, "InstanceType", new Restriction());
-		List<OfferItem> offeritems = new LinkedList<OfferItem>();
-		offeritems.add(offi);
-		//creationconstraint ---> Type Agreement no tiene ninguna propiedad, o creation constrain hereda de algo equivocado
-		//CreationConstraints cc = new CreationConstraints();
-		//solucion alternativa mantener las constrains en el transformador y devolverlas.
-		
-		for (ComputationService cp : computationService){
-			try{
-				String aux = "InstanceType=" + getShortURI(cp.getId()) + " IMPLIES ";
+		try{
+			Collection<ComputationService> computationService = getComputationServices();
+			
+			SDT.setName("SDT_AmazonEC2");
+			SDT.setServiceName("AmazonEC2");
+			//InstanceType
+			OfferItem offi = new OfferItem(SDT, "InstanceType", new Restriction());
+			List<OfferItem> offeritems = new LinkedList<OfferItem>();
+			offeritems.add(offi);
+			for (ComputationService cp : computationService){
 				if(cp.getHasComputingPerformance() != null){
-					aux += "ComputingPerformance="+cp.getHasComputingPerformance().getHasValueFloat();
 					Restriction r = new Restriction();
 					r.setBaseType(cp.getHasComputingPerformance().getUnit().toString());
 					OfferItem offi1 = new OfferItem(SDT, "ComputingPerformance", r);
@@ -139,7 +131,6 @@ public class USDL2iAgreeClassMapping {
 					}
 				}
 				if(cp.getHasIOPerformance() != null){
-					aux += " AND IOPerformance="+getShortURI(cp.getHasIOPerformance());
 					Restriction r = new Restriction();
 					r.setBaseType("");
 					OfferItem offi2 = new OfferItem(SDT, "IOPerformance", r);
@@ -148,7 +139,6 @@ public class USDL2iAgreeClassMapping {
 					}
 				}
 				if(cp.getHasInternalStorage() != null){
-					aux += " AND InternalStorage="+cp.getHasInternalStorage().getHasValueFloat();
 					Restriction r = new Restriction();
 					r.setBaseType(cp.getHasInternalStorage().getUnit().toString());
 					OfferItem offi3 = new OfferItem(SDT, "InternalStorage", r);
@@ -157,7 +147,6 @@ public class USDL2iAgreeClassMapping {
 					}
 				}
 				if(cp.getHasMemory() != null){
-					aux += " AND Memory="+cp.getHasMemory().getHasValueFloat();
 					Restriction r = new Restriction();
 					r.setBaseType(cp.getHasMemory().getUnit().toString());
 					OfferItem offi4 = new OfferItem(SDT, "Memory", r);
@@ -166,7 +155,6 @@ public class USDL2iAgreeClassMapping {
 					}
 				}
 				if(cp.getHasVirtualCores() != null){
-					aux += " AND VirtualCores="+cp.getHasVirtualCores().getHasValueInteger();
 					Restriction r = new Restriction();
 					r.setBaseType(cp.getHasVirtualCores().getUnit().toString());
 					OfferItem offi5 = new OfferItem(SDT, "VirtualCores", r);
@@ -174,35 +162,68 @@ public class USDL2iAgreeClassMapping {
 						offeritems.add(offi5);
 					}
 				}
-				
-				GeneralConstraint gc = new GeneralConstraint();
-				gc.setConstraint(aux);
-				this.cc.addConstraint(gc);
-				
-			}catch(Exception e){
-				e.printStackTrace();
+		}
+
+			for (OfferItem offia: offeritems){
+				SDT.getOfferItems().add(offia);
 			}
-		}
-
-		for (OfferItem offia: offeritems){
-			SDT.getOfferItems().add(offia);
-		}
 		
-		getDocument().getTerms().addComprisedTerm(SDT);
+		}catch(Exception e){
+			e.printStackTrace();
+		}		
 		
-		return document;		
-	}
-
-	public Agreement getDocument() {
-		return document;
+		return SDT;
 	}
 	
-	public CreationConstraints getCC(){
-		return cc;
+	public CreationConstraints getCreationConstraints(){
+		CreationConstraints cc = new CreationConstraints();
+		try{
+			Collection<ComputationService> computationService = getComputationServices();
+			
+			//creationconstraint ---> Type Agreement no tiene ninguna propiedad, o creation constrain hereda de algo equivocado
+			//CreationConstraints cc = new CreationConstraints();
+			//solucion alternativa mantener las constrains en el transformador y devolverlas.
+			
+			for (ComputationService cp : computationService){
+				
+					String aux = "InstanceType=" + getShortURI(cp.getId()) + " IMPLIES ";
+					if(cp.getHasComputingPerformance() != null){
+						aux += "ComputingPerformance="+cp.getHasComputingPerformance().getHasValueFloat();
+					}
+					if(cp.getHasIOPerformance() != null){
+						aux += " AND IOPerformance="+getShortURI(cp.getHasIOPerformance());
+					}
+					if(cp.getHasInternalStorage() != null){
+						aux += " AND InternalStorage="+cp.getHasInternalStorage().getHasValueFloat();
+					}
+					if(cp.getHasMemory() != null){
+						aux += " AND Memory="+cp.getHasMemory().getHasValueFloat();
+					}
+					if(cp.getHasVirtualCores() != null){
+						aux += " AND VirtualCores="+cp.getHasVirtualCores().getHasValueInteger();
+					}
+					GeneralConstraint gc = new GeneralConstraint();
+					gc.setConstraint(aux);
+					cc.addConstraint(gc);
+				
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return cc;		
 	}
-
-	public void setDocument(Agreement document) {
-		this.document = document;
+	
+	public Collection<ServiceOffering> getServiceOfferings() throws RDFBeanException{
+		Collection<ServiceOffering> ret;;
+		ret = getModel().getManager().createAll(ServiceOffering.class);
+		return ret;
+	}
+	
+	public Collection<ComputationService> getComputationServices() throws RDFBeanException{
+		Collection<ComputationService> ret;
+		ret = getModel().getManager().createAll(ComputationService.class);
+		return ret;
 	}
 	
 	private String getConditionExpFromAgC(AgreementCondition agC){
@@ -221,22 +242,6 @@ public class USDL2iAgreeClassMapping {
 		return ret;
 	}
 	
-//	private String getPenaltyExpFromAgC(AgreementCondition agC){
-//		String ret = "";
-//		String type = getShortURI(agC.getType());
-//		
-//		if (type.equals("MinGuaranteedValue")){
-//			ret += getShortURI(agC.getRefersTo().getId()) + " < " + getAgCValue(agC).toString();
-//		}else if (type.equals("MaxGuaranteedValue")){
-//			ret += getShortURI(agC.getRefersTo().getId()) + " > " + getAgCValue(agC).toString();
-//		}else if (type.equals("GuaranteedValue")){
-//			ret += getShortURI(agC.getRefersTo().getId()) + " != " + getAgCValue(agC).toString();
-//		}else{
-//			
-//		}
-//		return ret;
-//	}
-//	
 	private static Object getAgCValue(AgreementCondition agc){
 		Object ret = null;
 		

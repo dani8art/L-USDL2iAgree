@@ -2,10 +2,7 @@ package org.linkedusdl.agreement.mapping;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
 
-import org.linkedusdl.agreement.model.ComputationService;
-import org.linkedusdl.agreement.model.ServiceOffering;
 import org.ontoware.rdf2go.ModelFactory;
 import org.ontoware.rdf2go.RDF2Go;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
@@ -14,7 +11,6 @@ import org.ontoware.rdf2go.model.Syntax;
 import org.openrdf.rdf2go.RepositoryModelFactory;
 
 import com.viceversatech.rdfbeans.RDFBeanManager;
-import com.viceversatech.rdfbeans.exceptions.RDFBeanException;
 
 public class USDLModel {
 	
@@ -39,19 +35,11 @@ public class USDLModel {
 		this.manager = new RDFBeanManager(this.model);		
 	} 
 	
-	public Collection<ServiceOffering> getServiceOfferings() throws RDFBeanException{
-		Collection<ServiceOffering> ret;;
-		ret = this.manager.createAll(ServiceOffering.class);
-		return ret;
+	public RDFBeanManager getManager(){
+		return this.manager;
 	}
 	
-	public Collection<ComputationService> getComputationServices() throws RDFBeanException{
-		Collection<ComputationService> ret;;
-		ret = this.manager.createAll(ComputationService.class);
-		return ret;
-	}
-	
-	public void  closeModel(){
+	public void closeModel(){
 		this.model.close();
 	}
 }

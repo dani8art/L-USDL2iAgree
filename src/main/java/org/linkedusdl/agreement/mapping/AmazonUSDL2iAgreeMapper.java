@@ -24,7 +24,7 @@ import es.us.isa.ada.wsag10.StringSLO;
 import es.us.isa.ada.wsag10.StringValueExpr;
 import es.us.isa.ada.wsag10.Variable;
 
-import org.linkedusdl.agreement.model.GuaranteeTerm;
+import org.linkedusdl.agreement.model.AgreementTerm;
 
 import com.viceversatech.rdfbeans.exceptions.RDFBeanException;
 
@@ -43,7 +43,7 @@ public class AmazonUSDL2iAgreeMapper extends USDL2iAgreeMapper{
 		
 			for (ServiceOffering in : servicesOfferings){					
 				int n = 1; //var auxiliar para nombrar terms
-				for( GuaranteeTerm gt: in.getCompliesWith() ){
+				for( AgreementTerm gt: in.getCompliesWith() ){
 						
 					es.us.isa.ada.wsag10.GuaranteeTerm gtwsag = new es.us.isa.ada.wsag10.GuaranteeTerm();
 					gtwsag.setName("G"+n); // establece el nombre del GuaranteeTerm.
@@ -56,9 +56,9 @@ public class AmazonUSDL2iAgreeMapper extends USDL2iAgreeMapper{
 						
 					//BusinessValueList
 					// Penalty
-					Collection<GuaranteeTerm> penalties = gt.getHasCompensation();
+					Collection<AgreementTerm> penalties = gt.getHasCompensation();
 					BusinessValueList bsl = new BusinessValueList();
-					for(GuaranteeTerm penalty : penalties){					
+					for(AgreementTerm penalty : penalties){					
 						Penalty pl = new Penalty();
 						//TimeInterval tinter = new TimeInterval();
 						//tinter.setDuration("");
@@ -90,7 +90,7 @@ public class AmazonUSDL2iAgreeMapper extends USDL2iAgreeMapper{
 		
 			for (ServiceOffering in : servicesOfferings){
 				
-				for( GuaranteeTerm gt: in.getCompliesWith() ){
+				for( AgreementTerm gt: in.getCompliesWith() ){
 					
 					AgreementCondition agC = gt.getGuarantees();
 					ServiceProperty sp = agC.getRefersTo();

@@ -22,33 +22,32 @@ import com.viceversatech.rdfbeans.annotations.RDFSubject;
 	"rdfs =  http://www.w3.org/2000/01/rdf-schema#"
 })
 
-@RDFBean("ag:GuaranteeTerm")
-public interface GuaranteeTerm {
+@RDFBean("ag:AgreementTerm")
+public interface AgreementTerm {
 	
 	@RDFSubject
 	public String getId();
 	public void setId(String id);
-
-	@RDF("ag:hasCompensation")
-	public Collection<GuaranteeTerm> getHasCompensation();
-	public void setHasCompensation(Collection<GuaranteeTerm> hasCompensation);
+	
+	@RDF("ag:guaranteedOver") // no tendria por que modelar podria devolver URI no?
+	public Service getGuaranteedOver();
+	public void setGuaranteedOver(Service s);
 	
 	@RDF("ag:guarantees")
 	public AgreementCondition getGuarantees();
 	public void setGuarantees(AgreementCondition agc);
 	
-	@RDF("ag:guaranteedOver") // no tendria por que modelar podria devolver URI no?
-	public URI getGuaranteedOver();
-	public void setGuaranteedOver(URI s);
-	
-	@RDF("ag:hasObligedEntityInvolvement")
-	public URI getHasObligedEntityInvolvement();
-	public void setHasObligedEntityInvolvement(URI uri);
-	
 	@RDF("ag:hasPrecondition")
 	public AgreementCondition getHasPrecondition();
 	public void setHasPrecondition(AgreementCondition agc);
 	
+	@RDF("ag:hasObligedEntityInvolvement")
+	public EntityInvolvement getHasObligedEntityInvolvement();
+	public void setHasObligedEntityInvolvement(EntityInvolvement uri);
+	
+	@RDF("ag:hasValidityInterval")
+	public URI getHasValidityInterval();
+	public void setHasValidityInterval(URI uri);
 	
 	
 }

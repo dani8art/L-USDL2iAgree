@@ -38,4 +38,12 @@ public interface Metric {
 	@RDF("qudt:unit")
 	public URI getUnit();
 	public void setUnit(URI unit);
+	
+	@RDF("ag:hasMetricProviderEntityInvolvement")
+	public EntityInvolvement getHasMetricProviderEntityInvolvement();
+	public void setHasMetricProviderEntityInvolvement(EntityInvolvement unit);
+	
+	@RDF("ag:hasMeasuringInterval")
+	public URI getHasMeasuringInterval();
+	public void setHasMeasuringInterval(URI unit);
 }

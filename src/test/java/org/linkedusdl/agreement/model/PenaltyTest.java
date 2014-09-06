@@ -47,7 +47,7 @@ public class PenaltyTest {
 		Agreement ag = new Agreement();
 		ag.setName(so.getId());
 		try{
-			for (GuaranteeTerm gt: so.getCompliesWith()) {
+			for (AgreementTerm gt: so.getCompliesWith()) {
 				es.us.isa.ada.wsag10.GuaranteeTerm gr = new es.us.isa.ada.wsag10.GuaranteeTerm();
 				
 				System.out.println("- Guarantee Term: " + gt.getId());
@@ -71,7 +71,7 @@ public class PenaltyTest {
 					ag.getAllTerms().add(sp);
 				System.out.println("---------hasMetric: " + a.getRefersTo().getHasMetric().getId());
 				System.out.println("-----------Expression: "+ a.getRefersTo().getHasMetric().getHasExpression());
-				for(GuaranteeTerm b: gt.getHasCompensation()){
+				for(AgreementTerm b: gt.getHasCompensation()){
 					System.out.println("----- Compensation: " + b.getId());
 				}
 			

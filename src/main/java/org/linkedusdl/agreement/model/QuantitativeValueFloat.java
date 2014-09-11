@@ -35,6 +35,10 @@ public interface QuantitativeValueFloat {
 	public float getHasValueFloat();
 	public void setHasValueFloat(float val);
 	
+	@RDF("gr:hasMaxValueFloat")
+	public float getHasMaxValueFloat();
+	public void setHasMaxValueFloat(float val);
+	
 	@RDF("qudt:unit")
 	public URI getUnit();
 	public void setUnit(URI unit);

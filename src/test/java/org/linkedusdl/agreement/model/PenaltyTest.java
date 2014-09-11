@@ -71,10 +71,10 @@ public class PenaltyTest {
 					ag.getAllTerms().add(sp);
 				System.out.println("---------hasMetric: " + a.getRefersTo().getHasMetric().getId());
 				System.out.println("-----------Expression: "+ a.getRefersTo().getHasMetric().getHasExpression());
-				for(AgreementTerm b: gt.getHasCompensation()){
-					System.out.println("----- Compensation: " + b.getId());
-				}
-			
+//				for(AgreementTerm b: gt.getHasCompensation()){
+//					System.out.println("----- Compensation: " + b.getId());
+//				}
+//			
 			}
 			for (URI uri : so.getIncludes()){
 				System.out.println("- Includes: "+ uri);

@@ -71,9 +71,9 @@ public class ReadTest {
 					ag.getAllTerms().add(sp);
 				System.out.println("---------hasMetric: " + a.getRefersTo().getHasMetric().getId());
 				System.out.println("-----------Expression: "+ a.getRefersTo().getHasMetric().getHasExpression());
-				for(AgreementTerm b: gt.getHasCompensation()){
-					System.out.println("----- Compensation: " + b.getId());
-				}
+//				for(AgreementTerm b: gt.getHasCompensation()){
+//					System.out.println("----- Compensation: " + b.getId());
+//				}
 				
 			
 			}

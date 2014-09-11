@@ -3,7 +3,9 @@ package org.linkedusdl.agreement.mapping;
 import java.util.Collection;
 
 import es.us.isa.ada.wsag10.Agreement;
+import es.us.isa.ada.wsag10.Context;
 import es.us.isa.ada.wsag10.CreationConstraints;
+import es.us.isa.ada.wsag10.GuaranteeTerm;
 import es.us.isa.ada.wsag10.ServiceDescriptionTerm;
 import es.us.isa.ada.wsag10.ServiceProperties;
 import es.us.isa.ada.wsag10.TermCompositor;
@@ -23,16 +25,20 @@ public abstract class USDL2iAgreeMapper {
 		this.cc = new CreationConstraints();
 	}
 	
-	public abstract Collection<es.us.isa.ada.wsag10.GuaranteeTerm> getGuaranteeTerms();
+	public abstract Collection<GuaranteeTerm> getGuaranteeTerms();
 	public abstract ServiceProperties getServiceProperties();
 	public abstract CreationConstraints getCreationConstraints();
 	public abstract ServiceDescriptionTerm getServiceDescriptionTerm();
-	
+	public abstract Context getContext();
 	public Agreement transform () throws RDFBeanException{
 		
+		//context
+		getDocument().setContext(getContext());
+		
 		TermCompositor tcmp = new TermCompositor();
+		
 		//add guaranteeterm
-		for(es.us.isa.ada.wsag10.GuaranteeTerm gt : getGuaranteeTerms()){
+		for(GuaranteeTerm gt : getGuaranteeTerms()){
 			tcmp.addComprisedTerm(gt);
 		}
 		//add SP

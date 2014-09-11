@@ -1,5 +1,8 @@
 package org.linkedusdl.agreement.model;
 
+import java.net.URI;
+
+import com.viceversatech.rdfbeans.annotations.RDF;
 import com.viceversatech.rdfbeans.annotations.RDFBean;
 import com.viceversatech.rdfbeans.annotations.RDFNamespaces;
 import com.viceversatech.rdfbeans.annotations.RDFSubject;
@@ -23,5 +26,20 @@ public interface EntityInvolvement{
 	@RDFSubject
 	public String getId();
 	public void setId(String id);
+	
+	@RDF("rdf:type") 
+	public URI getType();
+	public void setType(URI s);
+	
+	@RDF("usdl:ofBusinessEntity") 
+	public URI getOfBusinessEntity();
+	public void setOfBusinessEntity(URI s);
+	
+	@RDF("usdl:withBusinessRole")
+	public URI getWithBusinessRole();
+	public void setWithBusinessRole(URI s);
+	
+	
+	
 	
 }

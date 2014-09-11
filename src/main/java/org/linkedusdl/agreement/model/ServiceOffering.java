@@ -29,8 +29,8 @@ public interface ServiceOffering {
 	public void setId(String id);
 
 	@RDF("ag:compliesWith")
-	public Collection<AgreementTerm> getCompliesWith();
-	public void setCompliesWith(Collection<AgreementTerm> complyWith);
+	public Collection<Guarantee> getCompliesWith();
+	public void setCompliesWith(Collection<Guarantee> complyWith);
 	
 	@RDF("usdl:includes")
 	public Set<URI> getIncludes();

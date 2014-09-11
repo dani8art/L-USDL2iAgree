@@ -29,9 +29,9 @@ public interface AgreementTerm {
 	public String getId();
 	public void setId(String id);
 	
-	@RDF("ag:guaranteedOver") // no tendria por que modelar podria devolver URI no?
-	public Service getGuaranteedOver();
-	public void setGuaranteedOver(Service s);
+	@RDF("ag:guaranteedOver")
+	public URI getGuaranteedOver();
+	public void setGuaranteedOver(URI s);
 	
 	@RDF("ag:guarantees")
 	public AgreementCondition getGuarantees();

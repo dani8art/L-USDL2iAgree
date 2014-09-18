@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import es.us.isa.ada.document.AbstractDocument;
 import es.us.isa.ada.wsag10.Agreement;
@@ -20,6 +23,8 @@ import es.us.isa.ada.wsag10.StringSLO;
 import es.us.isa.ada.wsag10.StringValueExpr;
 import es.us.isa.ada.wsag10.Term;
 import es.us.isa.ada.wsag10.Variable;
+import es.us.isa.ada.wsag10.domain.IntegerDomain;
+import es.us.isa.ada.wsag10.domain.IntegerRange;
 
 public class WriteiAgreeFromiAgreeModel {
 	
@@ -28,18 +33,30 @@ public class WriteiAgreeFromiAgreeModel {
 		
 	}
 	
-	public void writeFile(AbstractDocument doc, CreationConstraints cc, String destination) throws FileNotFoundException, UnsupportedEncodingException{
+	public void writeFile(AbstractDocument doc, CreationConstraints cc, Set<Variable> metrics, String destination) throws FileNotFoundException, UnsupportedEncodingException{
 		PrintWriter writer = new PrintWriter(destination, "UTF-8");
 		
 		Agreement ag = (Agreement)doc;
 		
 		//context
 		//define type of file and name 
-		writer.println("Template "+ ag.getName() + " version " + ag.getId() );		
+		writer.println("Template "+ ag.getName() + " version " + ag.getId() );
+		
 				 
 		Context c = ag.getContext();
 		writer.println("	Provider as Responder");
+
+		//metrics
 		writer.println("");
+		writer.println("	Metrics:");
+		
+		for (Variable v: metrics){
+			List<IntegerRange> inrgn =  new LinkedList<IntegerRange>(((IntegerDomain) v.getDomain()).getRanges());
+			writer.println("		" + v.getLocation().getContent() + ": integer [" + inrgn.get(0).getMin() + ".." + inrgn.get(0).getMax()+"]");
+		}
+		
+		writer.println("");
+		
 		//terms
 		writer.println("AgreementTerms");
 		
@@ -49,7 +66,7 @@ public class WriteiAgreeFromiAgreeModel {
 			String termType = t.getClass().getSimpleName();
 			if (termType.equals("ServiceDescriptionTerm")){
 				ServiceDescriptionTerm SDT = (ServiceDescriptionTerm) t;
-				writer.println("	Service " + SDT.getServiceName() + " avaiableAt. ");
+				writer.println("	Service " + SDT.getServiceName() + " avaiableAt. \"" + SDT.getWebServiceInformation().getWsdlURL()+ "\"");
 				writer.println("		GlobalDescription");
 				for (OfferItem offi : SDT.getOfferItems()){
 					writer.println("			"+offi.getName() + ": " + offi.getRestriction().getBaseType()); 

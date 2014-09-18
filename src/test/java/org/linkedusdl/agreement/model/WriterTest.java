@@ -25,7 +25,7 @@ public class WriterTest {
 			WriteiAgreeFromiAgreeModel writer = new WriteiAgreeFromiAgreeModel();
 			
 			Agreement ag = mapping.transform();
-			writer.writeFile(ag, mapping.getCC(), "src/test/resources/org/linkedusdl/agreement/iAgree/"+"AmazonEC2.iagreetemplate");
+			writer.writeFile(ag, mapping.getCC(),mapping.getMetrics(), "src/test/resources/org/linkedusdl/agreement/iAgree/"+"AmazonEC2.iagreetemplate");
 			
 			model.closeModel();
 		}catch(Exception e){

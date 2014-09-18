@@ -1,22 +1,23 @@
-Template AmazonEC2 version 
+Template AmazonEC2 version 1.0
 	Provider as Responder
 
+	Metrics:
+		Percent: integer [1..100]
 
 AgreementTerms
-	Service AmazonEC2 avaiableAt. 
+	Service AmazonEC2 avaiableAt. "aws.amazon.com/ec2/"
 		GlobalDescription
-			InstanceType: null
+			InstanceType: set {ec2M3DoubleExtraLargeInstanceType, ec2ClusterComputeEightExtraLargeInstanceType, ec2HighCPUExtraLargeInstanceType, ec2ClusterGPUQuadrupleExtraLargeInstanceType, ec2HighMemoryDoubleExtraLargeInstanceType, ec2HighMemoryExtraLargeInstanceType, ec2HighCPUMediumInstanceType, ec2M1LargeInstanceType, ec2HighIOQuadrupleExtraLargeInstanceType, ec2MicroInstanceType, ec2M1ExtraLargeInstanceType, ec2HighMemoryQuadrupleExtraLargeInstanceType, ec2M1MediumInstanceService, ec2M3ExtraLargeInstanceType, ec2M1SmallInstanceService, ec2ClusterComputeQuadrupleExtraLargeInstanceType}
 			IOPerformance: ModerateIOPerformance
-			ComputingPerformance: EC2ComputeUnit
-			Memory: Gibibyte
+			ServiceCreditPercentage: Percent
 			VirtualCores: Number
+			ComputingPerformance: EC2ComputeUnit
 			InternalStorage: Gibibyte
-
+			Memory: Gibibyte
 
 	MonitorableProperties
 		global:
 			annualUptimePercentage: annualUptimeMetric
-
 
 	GuaranteeTerms
 		G1: Provider guarantees annualUptimePercentage > 99.95 ;
@@ -25,22 +26,21 @@ AgreementTerms
 				of ServiceCreditPercentage = 10.0 if annualUptimePercentage > 99.0 ;
 			end
 
-
 CreationConstraints
-	C1: InstanceType=ec2M3ExtraLargeInstanceType IMPLIES ComputingPerformance=13.0 AND IOPerformance=ModerateIOPerformance AND Memory=15.0 AND VirtualCores=4 ;
-	C2: InstanceType=ec2HighCPUMediumInstanceType IMPLIES ComputingPerformance=5.0 AND IOPerformance=ModerateIOPerformance AND InternalStorage=340.0 AND Memory=1.7 AND VirtualCores=2 ;
-	C3: InstanceType=ec2MicroInstanceType IMPLIES ComputingPerformance < 2.0 AND IOPerformance=LowIOPerformance AND Memory=615.0 AND VirtualCores=1 ;
-	C4: InstanceType=ec2HighIOQuadrupleExtraLargeInstanceType IMPLIES ComputingPerformance=35.0 AND IOPerformance=VeryHighIOPerformance AND InternalStorage=2.0 AND Memory=60.5 AND VirtualCores=8 ;
-	C5: InstanceType=ec2ClusterComputeQuadrupleExtraLargeInstanceType IMPLIES ComputingPerformance=33.5 AND IOPerformance=VeryHighIOPerformance AND InternalStorage=1690.0 AND Memory=22.5 AND VirtualCores=8 ;
-	C6: InstanceType=ec2ClusterGPUQuadrupleExtraLargeInstanceType IMPLIES ComputingPerformance=33.5 AND IOPerformance=VeryHighIOPerformance AND InternalStorage=1680.0 AND Memory=22.5 AND VirtualCores=8 ;
-	C7: InstanceType=ec2HighMemoryExtraLargeInstanceType IMPLIES ComputingPerformance=6.5 AND IOPerformance=ModerateIOPerformance AND InternalStorage=410.0 AND Memory=17.1 AND VirtualCores=2 ;
-	C8: InstanceType=ec2M1LargeInstanceType IMPLIES ComputingPerformance=4.0 AND IOPerformance=ModerateIOPerformance AND InternalStorage=840.0 AND Memory=7.5 AND VirtualCores=2 ;
-	C9: InstanceType=ec2M1SmallInstanceService IMPLIES ComputingPerformance=1.0 AND IOPerformance=ModerateIOPerformance AND InternalStorage=150.0 AND Memory=1.7 AND VirtualCores=1 ;
-	C10: InstanceType=ec2M1MediumInstanceService IMPLIES ComputingPerformance=2.0 AND IOPerformance=ModerateIOPerformance AND InternalStorage=400.0 AND Memory=3.75 AND VirtualCores=1 ;
-	C11: InstanceType=ec2ClusterComputeEightExtraLargeInstanceType IMPLIES ComputingPerformance=88.0 AND IOPerformance=VeryHighIOPerformance AND InternalStorage=3360.0 AND Memory=60.5 AND VirtualCores=16 ;
-	C12: InstanceType=ec2HighCPUExtraLargeInstanceType IMPLIES ComputingPerformance=20.0 AND IOPerformance=HighIOPerformance AND InternalStorage=1680.0 AND Memory=7.0 AND VirtualCores=8 ;
-	C13: InstanceType=ec2HighMemoryDoubleExtraLargeInstanceType IMPLIES ComputingPerformance=13.0 AND IOPerformance=HighIOPerformance AND InternalStorage=840.0 AND Memory=34.2 AND VirtualCores=4 ;
-	C14: InstanceType=ec2HighMemoryQuadrupleExtraLargeInstanceType IMPLIES ComputingPerformance=26.0 AND IOPerformance=HighIOPerformance AND InternalStorage=1680.0 AND Memory=68.4 AND VirtualCores=8 ;
-	C15: InstanceType=ec2M1ExtraLargeInstanceType IMPLIES ComputingPerformance=8.0 AND IOPerformance=HighIOPerformance AND InternalStorage=1680.0 AND Memory=15.0 AND VirtualCores=4 ;
-	C16: InstanceType=ec2M3DoubleExtraLargeInstanceType IMPLIES ComputingPerformance=26.0 AND IOPerformance=ModerateIOPerformance AND Memory=30.0 AND VirtualCores=8 ;
+	C1: InstanceType=ec2ClusterComputeEightExtraLargeInstanceType IMPLIES ComputingPerformance=88.0 AND IOPerformance=VeryHighIOPerformance AND InternalStorage=3360.0 AND Memory=60.5 AND VirtualCores=16 ;
+	C2: InstanceType=ec2M1ExtraLargeInstanceType IMPLIES ComputingPerformance=8.0 AND IOPerformance=HighIOPerformance AND InternalStorage=1680.0 AND Memory=15.0 AND VirtualCores=4 ;
+	C3: InstanceType=ec2M1LargeInstanceType IMPLIES ComputingPerformance=4.0 AND IOPerformance=ModerateIOPerformance AND InternalStorage=840.0 AND Memory=7.5 AND VirtualCores=2 ;
+	C4: InstanceType=ec2M3DoubleExtraLargeInstanceType IMPLIES ComputingPerformance=26.0 AND IOPerformance=ModerateIOPerformance AND Memory=30.0 AND VirtualCores=8 ;
+	C5: InstanceType=ec2HighCPUExtraLargeInstanceType IMPLIES ComputingPerformance=20.0 AND IOPerformance=HighIOPerformance AND InternalStorage=1680.0 AND Memory=7.0 AND VirtualCores=8 ;
+	C6: InstanceType=ec2HighMemoryExtraLargeInstanceType IMPLIES ComputingPerformance=6.5 AND IOPerformance=ModerateIOPerformance AND InternalStorage=410.0 AND Memory=17.1 AND VirtualCores=2 ;
+	C7: InstanceType=ec2ClusterGPUQuadrupleExtraLargeInstanceType IMPLIES ComputingPerformance=33.5 AND IOPerformance=VeryHighIOPerformance AND InternalStorage=1680.0 AND Memory=22.5 AND VirtualCores=8 ;
+	C8: InstanceType=ec2M1MediumInstanceService IMPLIES ComputingPerformance=2.0 AND IOPerformance=ModerateIOPerformance AND InternalStorage=400.0 AND Memory=3.75 AND VirtualCores=1 ;
+	C9: InstanceType=ec2HighIOQuadrupleExtraLargeInstanceType IMPLIES ComputingPerformance=35.0 AND IOPerformance=VeryHighIOPerformance AND InternalStorage=2.0 AND Memory=60.5 AND VirtualCores=8 ;
+	C10: InstanceType=ec2HighMemoryQuadrupleExtraLargeInstanceType IMPLIES ComputingPerformance=26.0 AND IOPerformance=HighIOPerformance AND InternalStorage=1680.0 AND Memory=68.4 AND VirtualCores=8 ;
+	C11: InstanceType=ec2HighCPUMediumInstanceType IMPLIES ComputingPerformance=5.0 AND IOPerformance=ModerateIOPerformance AND InternalStorage=340.0 AND Memory=1.7 AND VirtualCores=2 ;
+	C12: InstanceType=ec2ClusterComputeQuadrupleExtraLargeInstanceType IMPLIES ComputingPerformance=33.5 AND IOPerformance=VeryHighIOPerformance AND InternalStorage=1690.0 AND Memory=22.5 AND VirtualCores=8 ;
+	C13: InstanceType=ec2MicroInstanceType IMPLIES ComputingPerformance < 2.0 AND IOPerformance=LowIOPerformance AND Memory=615.0 AND VirtualCores=1 ;
+	C14: InstanceType=ec2HighMemoryDoubleExtraLargeInstanceType IMPLIES ComputingPerformance=13.0 AND IOPerformance=HighIOPerformance AND InternalStorage=840.0 AND Memory=34.2 AND VirtualCores=4 ;
+	C15: InstanceType=ec2M1SmallInstanceService IMPLIES ComputingPerformance=1.0 AND IOPerformance=ModerateIOPerformance AND InternalStorage=150.0 AND Memory=1.7 AND VirtualCores=1 ;
+	C16: InstanceType=ec2M3ExtraLargeInstanceType IMPLIES ComputingPerformance=13.0 AND IOPerformance=ModerateIOPerformance AND Memory=15.0 AND VirtualCores=4 ;
 EndTemplate

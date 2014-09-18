@@ -66,7 +66,7 @@ public class WriteiAgreeFromiAgreeModel {
 			String termType = t.getClass().getSimpleName();
 			if (termType.equals("ServiceDescriptionTerm")){
 				ServiceDescriptionTerm SDT = (ServiceDescriptionTerm) t;
-				writer.println("	Service " + SDT.getServiceName() + " avaiableAt. \"" + SDT.getWebServiceInformation().getWsdlURL()+ "\"");
+				writer.println("	Service " + SDT.getServiceName() + " availableAt. \"" + SDT.getWebServiceInformation().getWsdlURL()+ "\"");
 				writer.println("		GlobalDescription");
 				for (OfferItem offi : SDT.getOfferItems()){
 					writer.println("			"+offi.getName() + ": " + offi.getRestriction().getBaseType()); 

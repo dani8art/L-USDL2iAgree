@@ -1,13 +1,7 @@
 package org.linkedusdl.agreement.model;
 
-import java.net.URI;
-import java.util.Collection;
-import java.util.Set;
-
-import com.viceversatech.rdfbeans.annotations.RDF;
 import com.viceversatech.rdfbeans.annotations.RDFBean;
 import com.viceversatech.rdfbeans.annotations.RDFNamespaces;
-import com.viceversatech.rdfbeans.annotations.RDFSubject;
 
 @RDFNamespaces({
 	"ag = http://purl.org/agreements#",
@@ -21,19 +15,8 @@ import com.viceversatech.rdfbeans.annotations.RDFSubject;
 	"rdf = http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	"rdfs =  http://www.w3.org/2000/01/rdf-schema#"
 })
-@RDFBean("usdl:ServiceOffering")
-public interface ServiceOffering {
-	
-	@RDFSubject
-	public String getId();
-	public void setId(String id);
 
-	@RDF("ag:compliesWith")
-	public Collection<Guarantee> getCompliesWith();
-	public void setCompliesWith(Collection<Guarantee> complyWith);
-	
-	@RDF("usdl:includes")
-	public Set<URI> getIncludes();
-	public void setIncludes(Set<URI> includes);	
-	
+@RDFBean("ag:Compensation")
+public interface Compensation extends AgreementTerm{
+		
 }

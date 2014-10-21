@@ -32,8 +32,8 @@ public class ReadTest {
 				printServiceOffering(so);	
 			}
 
-			Agreement ag = mapping.transform();
-			writer.writeFile(ag, mapping.getCC(), "src/test/resources/org/linkedusdl/agreement/xml/"+"AmazonEC2.xml");
+			//Agreement ag = mapping.transform();
+			//writer.writeFile(ag, mapping.getCC(), "src/test/resources/org/linkedusdl/agreement/xml/"+"AmazonEC2.xml");
 			
 			model.closeModel();
 		}catch(Exception e){
@@ -47,7 +47,7 @@ public class ReadTest {
 		Agreement ag = new Agreement();
 		ag.setName(so.getId());
 		try{
-			for (GuaranteeTerm gt: so.getCompliesWith()) {
+			for (AgreementTerm gt: so.getCompliesWith()) {
 				es.us.isa.ada.wsag10.GuaranteeTerm gr = new es.us.isa.ada.wsag10.GuaranteeTerm();
 				
 				System.out.println("- Guarantee Term: " + gt.getId());
@@ -71,9 +71,9 @@ public class ReadTest {
 					ag.getAllTerms().add(sp);
 				System.out.println("---------hasMetric: " + a.getRefersTo().getHasMetric().getId());
 				System.out.println("-----------Expression: "+ a.getRefersTo().getHasMetric().getHasExpression());
-				for(GuaranteeTerm b: gt.getHasCompensation()){
-					System.out.println("----- Compensation: " + b.getId());
-				}
+//				for(AgreementTerm b: gt.getHasCompensation()){
+//					System.out.println("----- Compensation: " + b.getId());
+//				}
 				
 			
 			}

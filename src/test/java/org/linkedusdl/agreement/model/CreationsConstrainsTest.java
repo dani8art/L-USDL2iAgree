@@ -43,7 +43,11 @@ public class CreationsConstrainsTest {
 			
 			System.out.println("Computation Service: " + cs.getId());
 			if(cs.getHasComputingPerformance() != null){
-				System.out.println("--Computing performance: "+ cs.getHasComputingPerformance().getHasValueFloat());
+				try{
+					System.out.println("--Computing performance: "+ cs.getHasComputingPerformance().getHasValueFloat());
+				}catch(Exception e){
+					System.out.println("--Computing performance: "+ cs.getHasComputingPerformance().getHasMaxValueFloat());
+				}
 			}
 			if(cs.getHasIOPerformance() != null){
 				System.out.println("--IO Performance: " + cs.getHasIOPerformance());

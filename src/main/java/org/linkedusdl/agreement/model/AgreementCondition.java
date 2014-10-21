@@ -39,4 +39,11 @@ public interface AgreementCondition {
 	public ServiceProperty getRefersTo();
 	public void setRefersTo(ServiceProperty uri);
 	
+	@RDF("ag:hasConditionEvaluationEntityInvolvement")
+	public EntityInvolvement getHasConditionEvaluationEntityInvolvement();
+	public void setHasConditionEvaluationEntityInvolvement(EntityInvolvement uri);
+	
+	@RDF("ag:hasEvaluationInterval")
+	public URI getHasEvaluationInterval();
+	public void setHasEvaluationInterval(URI uri);
 }

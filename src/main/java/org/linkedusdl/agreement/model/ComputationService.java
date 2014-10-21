@@ -47,4 +47,7 @@ public interface ComputationService {
 	public Value getHasVirtualCores();
 	public void setHasVirtualCores(Value hasVirtualCores );
 	
+	@RDF("usdl:hasEntityInvolvements")
+	public EntityInvolvement getHasEntityInvolvements();
+	public void setHasEntityInvolvements(EntityInvolvement hasVirtualCores );
 }

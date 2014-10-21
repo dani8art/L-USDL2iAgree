@@ -1,11 +1,10 @@
 package org.linkedusdl.agreement.model;
 
-import java.net.URI;
+import java.util.Collection;
 
 import com.viceversatech.rdfbeans.annotations.RDF;
 import com.viceversatech.rdfbeans.annotations.RDFBean;
 import com.viceversatech.rdfbeans.annotations.RDFNamespaces;
-import com.viceversatech.rdfbeans.annotations.RDFSubject;
 
 @RDFNamespaces({
 	"ag = http://purl.org/agreements#",
@@ -20,26 +19,11 @@ import com.viceversatech.rdfbeans.annotations.RDFSubject;
 	"rdfs =  http://www.w3.org/2000/01/rdf-schema#"
 })
 
-@RDFBean("gr:QuantitativeValueFloat")
-public interface QuantitativeValueFloat {
-
-	@RDFSubject
-	public String getId();
-	public void setId(String id);
+@RDFBean("ag:Guarantee")
+public interface Guarantee extends AgreementTerm{
+		
+	@RDF("ag:hasCompensation")
+	public Collection<Compensation>getHasCompensation();
+	public void setHasPrecondition(Compensation agc);
 	
-	@RDF("rdf:type")
-	public URI getType();
-	public void setType(URI type);	
-	
-	@RDF("gr:hasValueFloat")
-	public float getHasValueFloat();
-	public void setHasValueFloat(float val);
-	
-	@RDF("gr:hasMaxValueFloat")
-	public float getHasMaxValueFloat();
-	public void setHasMaxValueFloat(float val);
-	
-	@RDF("qudt:unit")
-	public URI getUnit();
-	public void setUnit(URI unit);
 }

@@ -20,26 +20,26 @@ import com.viceversatech.rdfbeans.annotations.RDFSubject;
 	"rdfs =  http://www.w3.org/2000/01/rdf-schema#"
 })
 
-@RDFBean("gr:QuantitativeValueFloat")
-public interface QuantitativeValueFloat {
-
+@RDFBean("usdl:EntityInvolvement")
+public interface EntityInvolvement{
+	
 	@RDFSubject
 	public String getId();
 	public void setId(String id);
 	
-	@RDF("rdf:type")
+	@RDF("rdf:type") 
 	public URI getType();
-	public void setType(URI type);	
+	public void setType(URI s);
 	
-	@RDF("gr:hasValueFloat")
-	public float getHasValueFloat();
-	public void setHasValueFloat(float val);
+	@RDF("usdl:ofBusinessEntity") 
+	public URI getOfBusinessEntity();
+	public void setOfBusinessEntity(URI s);
 	
-	@RDF("gr:hasMaxValueFloat")
-	public float getHasMaxValueFloat();
-	public void setHasMaxValueFloat(float val);
+	@RDF("usdl:withBusinessRole")
+	public URI getWithBusinessRole();
+	public void setWithBusinessRole(URI s);
 	
-	@RDF("qudt:unit")
-	public URI getUnit();
-	public void setUnit(URI unit);
+	
+	
+	
 }

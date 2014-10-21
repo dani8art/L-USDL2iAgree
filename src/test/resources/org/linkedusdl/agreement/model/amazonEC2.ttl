@@ -37,7 +37,7 @@
 :involvement_Amazon
       rdf:type usdl-core:EntityInvolvement ;
 	  usdl-core:ofBusinessEntity :entity_Amazon ;
-	  usdl-core:withBusinessRole usdl-br:provider .
+	  usdl-core:withBusinessRole usdl-br:provider 
 	  
 # Specific unit used by Amazon
 :EC2ComputeUnit

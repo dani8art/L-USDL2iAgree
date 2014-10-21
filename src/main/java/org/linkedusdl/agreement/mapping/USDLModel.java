@@ -9,6 +9,7 @@ import org.ontoware.rdf2go.exception.ModelRuntimeException;
 import org.ontoware.rdf2go.model.Model;
 import org.ontoware.rdf2go.model.Syntax;
 import org.openrdf.rdf2go.RepositoryModelFactory;
+import org.openrdf.rio.RDFParseException;
 
 import com.viceversatech.rdfbeans.RDFBeanManager;
 
@@ -20,7 +21,7 @@ public class USDLModel {
 	//private InputStream source; // inputStream para cargar desde la clase y no desde el test
 	private RDFBeanManager manager;
 	
-	public USDLModel (InputStream sourcein) throws ModelRuntimeException, IOException{//cambiar atributo a String
+	public USDLModel (InputStream sourcein) throws ModelRuntimeException, IOException, RDFParseException{//cambiar atributo a String
 		// Loads RDF2Go model
 		RDF2Go.register(new RepositoryModelFactory());
 		this.modelFactory = RDF2Go.getModelFactory();

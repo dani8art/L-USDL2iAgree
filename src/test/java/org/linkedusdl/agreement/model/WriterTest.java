@@ -9,6 +9,7 @@ import org.linkedusdl.agreement.mapping.USDLModel;
 import org.linkedusdl.agreement.mapping.WriteXMLFromiAgree;
 import org.linkedusdl.agreement.mapping.WriteiAgreeFromiAgreeModel;
 import org.ontoware.rdf2go.exception.ModelRuntimeException;
+import org.openrdf.rio.RDFParseException;
 
 import com.viceversatech.rdfbeans.exceptions.RDFBeanException;
 
@@ -28,8 +29,11 @@ public class WriterTest {
 			writer.writeFile(ag, mapping.getCC(),mapping.getMetrics(), "src/test/resources/org/linkedusdl/agreement/iAgree/"+"AmazonEC2.iagreetemplate");
 			
 			model.closeModel();
-		}catch(Exception e){
-			e.printStackTrace();
+		}catch(ModelRuntimeException e){
+			System.out.println("cath model");
+		} catch (RDFParseException e) {
+			// TODO Auto-generated catch block
+			System.out.println("cath parser");
 		}
 	}	
 }
